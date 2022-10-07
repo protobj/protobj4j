@@ -3638,6 +3638,7 @@ public class ProtobjInput implements Input {
         // save old limit
         final int oldLimit = this.limit;
         this.limit = offset + length;
+        this.packedLimit = this.limit;
         return oldLimit;
     }
 
