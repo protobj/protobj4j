@@ -15,20 +15,20 @@ public class PersonChildEnumSchema implements Schema {
 
     public static void writeTo(Output output, PersonChildEnum message, boolean polymorphic) throws IOException {
         if (message == null) {
-            output.writeI32(0);
+            output.writeI32_Packed(0);
             return;
         }
         switch (message) {
             case Person: {
-                output.writeI32(0);
+                output.writeI32_Packed(0);
                 break;
             }
             case User: {
-                output.writeI32(1);
+                output.writeI32_Packed(1);
                 break;
             }
             case Worker: {
-                output.writeI32(2);
+                output.writeI32_Packed(2);
                 break;
             }
             default: {
@@ -39,7 +39,7 @@ public class PersonChildEnumSchema implements Schema {
     }
     public static void writeWithFieldNumber(int fieldNum, Output output, PersonChildEnum message) throws IOException {
         if (message == null) {
-            output.writeI32(0);
+            output.writeI32_Packed(0);
             return;
         }
         switch (message) {

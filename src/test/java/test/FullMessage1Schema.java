@@ -15,7 +15,7 @@ public class FullMessage1Schema implements Schema {
 
     public static void writeTo(Output output, FullMessage1 message, boolean polymorphic) throws IOException {
         if (polymorphic) {
-            output.writeI32(1);
+            output.writeI32_Packed(1);
         }
         //ext FullMessage0 p1 = 1 ; 
         output.writeMessage(1, () -> FullMessage0Schema.writeTo(output, message,false));

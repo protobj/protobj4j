@@ -33,7 +33,7 @@ public class ProtobjOutput extends WriteSession implements Output {
     }
 
     @Override
-    public void writeBOOL(boolean value) throws IOException {
+    public void writeBOOL_Packed(boolean value) throws IOException {
         tail = sink.writeByte(value ? (byte) 0x01 : 0x00, this, tail);
     }
 
@@ -43,7 +43,7 @@ public class ProtobjOutput extends WriteSession implements Output {
     }
 
     @Override
-    public void writeI8(byte value) throws IOException {
+    public void writeI8_Packed(byte value) throws IOException {
         tail = sink.writeByte(value, this, tail);
     }
 
@@ -53,7 +53,7 @@ public class ProtobjOutput extends WriteSession implements Output {
     }
 
     @Override
-    public void writeU8(byte value) throws IOException {
+    public void writeU8_Packed(byte value) throws IOException {
         tail = sink.writeByte(value, this, tail);
     }
 
@@ -63,7 +63,7 @@ public class ProtobjOutput extends WriteSession implements Output {
     }
 
     @Override
-    public void writeI16(short value) throws IOException {
+    public void writeI16_Packed(short value) throws IOException {
         tail = sink.writeInt16LE(value, this, tail);
     }
 
@@ -73,7 +73,7 @@ public class ProtobjOutput extends WriteSession implements Output {
     }
 
     @Override
-    public void writeU16(short value) throws IOException {
+    public void writeU16_Packed(short value) throws IOException {
         tail = sink.writeInt16LE(value, this, tail);
     }
 
@@ -86,7 +86,7 @@ public class ProtobjOutput extends WriteSession implements Output {
         }
     }
 
-    public void writeI32(int value) throws IOException {
+    public void writeI32_Packed(int value) throws IOException {
         if (value < 0) {
             tail = sink.writeVarInt64(value, this, tail);
         } else {
@@ -94,7 +94,7 @@ public class ProtobjOutput extends WriteSession implements Output {
         }
     }
 
-    public void writeU32(int value) throws IOException {
+    public void writeU32_Packed(int value) throws IOException {
         tail = sink.writeVarInt32(value, this, tail);
     }
 
@@ -109,7 +109,7 @@ public class ProtobjOutput extends WriteSession implements Output {
     }
 
     @Override
-    public void writeS32(int value) throws IOException {
+    public void writeS32_Packed(int value) throws IOException {
         tail = sink.writeVarInt32(encodeZigZag32(value), this, tail);
     }
 
@@ -120,7 +120,7 @@ public class ProtobjOutput extends WriteSession implements Output {
     }
 
     @Override
-    public void writeF32(int value) throws IOException {
+    public void writeF32_Packed(int value) throws IOException {
         tail = sink.writeInt32LE(value, this, tail);
     }
 
@@ -131,7 +131,7 @@ public class ProtobjOutput extends WriteSession implements Output {
     }
 
     @Override
-    public void writeSF32(int value) throws IOException {
+    public void writeSF32_Packed(int value) throws IOException {
         tail = sink.writeInt32LE(value, this, tail);
 
     }
@@ -142,7 +142,7 @@ public class ProtobjOutput extends WriteSession implements Output {
     }
 
     @Override
-    public void writeI64(long value) throws IOException {
+    public void writeI64_Packed(long value) throws IOException {
         tail = sink.writeVarInt64(value, this, tail);
 
     }
@@ -154,7 +154,7 @@ public class ProtobjOutput extends WriteSession implements Output {
     }
 
     @Override
-    public void writeU64(long value) throws IOException {
+    public void writeU64_Packed(long value) throws IOException {
         tail = sink.writeVarInt64(value, this, tail);
 
     }
@@ -166,7 +166,7 @@ public class ProtobjOutput extends WriteSession implements Output {
     }
 
     @Override
-    public void writeS64(long value) throws IOException {
+    public void writeS64_Packed(long value) throws IOException {
         tail = sink.writeVarInt64(encodeZigZag64(value), this, tail);
 
     }
@@ -177,7 +177,7 @@ public class ProtobjOutput extends WriteSession implements Output {
     }
 
     @Override
-    public void writeF64(long value) throws IOException {
+    public void writeF64_Packed(long value) throws IOException {
         tail = sink.writeInt64LE(value, this, tail);
 
     }
@@ -188,7 +188,7 @@ public class ProtobjOutput extends WriteSession implements Output {
     }
 
     @Override
-    public void writeSF64(long value) throws IOException {
+    public void writeSF64_Packed(long value) throws IOException {
         tail = sink.writeInt64LE(value, this, tail);
     }
 
@@ -198,7 +198,7 @@ public class ProtobjOutput extends WriteSession implements Output {
     }
 
     @Override
-    public void writeFLOAT(float value) throws IOException {
+    public void writeFLOAT_Packed(float value) throws IOException {
         tail = sink.writeInt32LE(Float.floatToRawIntBits(value), this, tail);
     }
 
@@ -209,7 +209,7 @@ public class ProtobjOutput extends WriteSession implements Output {
     }
 
     @Override
-    public void writeDOUBLE(double value) throws IOException {
+    public void writeDOUBLE_Packed(double value) throws IOException {
         tail = sink.writeInt64LE(Double.doubleToRawLongBits(value), this, tail);
 
     }
@@ -229,7 +229,7 @@ public class ProtobjOutput extends WriteSession implements Output {
             }
         }
         writeMessage(fieldNumber, () -> {
-            writeI32(value.length);
+            writeI32_Packed(value.length);
             tail = sink.writeByteArray(bytes, 0, bytes.length, ProtobjOutput.this, tail);
         });
     }
@@ -243,9 +243,9 @@ public class ProtobjOutput extends WriteSession implements Output {
     @Override
     public void writeU16Array(int fieldNumber, short[] value) throws IOException {
         writeMessage(fieldNumber, () -> {
-            writeI32(value.length);
+            writeI32_Packed(value.length);
             for (short item : value) {
-                writeU16(item);
+                writeU16_Packed(item);
             }
         });
     }
@@ -254,9 +254,9 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeI32Array(int fieldNumber, int[] value) throws IOException {
 
         writeMessage(fieldNumber, () -> {
-            writeI32(value.length);
+            writeI32_Packed(value.length);
             for (int item : value) {
-                writeI32(item);
+                writeI32_Packed(item);
             }
         });
     }
@@ -264,9 +264,9 @@ public class ProtobjOutput extends WriteSession implements Output {
     @Override
     public void writeU32Array(int fieldNumber, int[] value) throws IOException {
         writeMessage(fieldNumber, () -> {
-            writeI32(value.length);
+            writeI32_Packed(value.length);
             for (int item : value) {
-                writeU32(item);
+                writeU32_Packed(item);
             }
         });
     }
@@ -274,9 +274,9 @@ public class ProtobjOutput extends WriteSession implements Output {
     @Override
     public void writeS32Array(int fieldNumber, int[] value) throws IOException {
         writeMessage(fieldNumber, () -> {
-            writeI32(value.length);
+            writeI32_Packed(value.length);
             for (int item : value) {
-                writeS32(item);
+                writeS32_Packed(item);
             }
         });
     }
@@ -284,9 +284,9 @@ public class ProtobjOutput extends WriteSession implements Output {
     @Override
     public void writeF32Array(int fieldNumber, int[] value) throws IOException {
         writeMessage(fieldNumber, () -> {
-            writeI32(value.length);
+            writeI32_Packed(value.length);
             for (int item : value) {
-                writeF32(item);
+                writeF32_Packed(item);
             }
         });
     }
@@ -294,9 +294,9 @@ public class ProtobjOutput extends WriteSession implements Output {
     @Override
     public void writeSF32Array(int fieldNumber, int[] value) throws IOException {
         writeMessage(fieldNumber, () -> {
-            writeI32(value.length);
+            writeI32_Packed(value.length);
             for (int item : value) {
-                writeSF32(item);
+                writeSF32_Packed(item);
             }
         });
     }
@@ -304,9 +304,9 @@ public class ProtobjOutput extends WriteSession implements Output {
     @Override
     public void writeI64Array(int fieldNumber, long[] value) throws IOException {
         writeMessage(fieldNumber, () -> {
-            writeI32(value.length);
+            writeI32_Packed(value.length);
             for (long item : value) {
-                writeI64(item);
+                writeI64_Packed(item);
             }
         });
     }
@@ -314,9 +314,9 @@ public class ProtobjOutput extends WriteSession implements Output {
     @Override
     public void writeU64Array(int fieldNumber, long[] value) throws IOException {
         writeMessage(fieldNumber, () -> {
-            writeI32(value.length);
+            writeI32_Packed(value.length);
             for (long item : value) {
-                writeU64(item);
+                writeU64_Packed(item);
             }
         });
     }
@@ -324,9 +324,9 @@ public class ProtobjOutput extends WriteSession implements Output {
     @Override
     public void writeS64Array(int fieldNumber, long[] value) throws IOException {
         writeMessage(fieldNumber, () -> {
-            writeI32(value.length);
+            writeI32_Packed(value.length);
             for (long item : value) {
-                writeS64(item);
+                writeS64_Packed(item);
             }
         });
     }
@@ -334,9 +334,9 @@ public class ProtobjOutput extends WriteSession implements Output {
     @Override
     public void writeF64Array(int fieldNumber, long[] value) throws IOException {
         writeMessage(fieldNumber, () -> {
-            writeI32(value.length);
+            writeI32_Packed(value.length);
             for (long item : value) {
-                writeF64(item);
+                writeF64_Packed(item);
             }
         });
     }
@@ -344,9 +344,9 @@ public class ProtobjOutput extends WriteSession implements Output {
     @Override
     public void writeSF64Array(int fieldNumber, long[] value) throws IOException {
         writeMessage(fieldNumber, () -> {
-            writeI32(value.length);
+            writeI32_Packed(value.length);
             for (long item : value) {
-                writeSF64(item);
+                writeSF64_Packed(item);
             }
         });
     }
@@ -354,9 +354,9 @@ public class ProtobjOutput extends WriteSession implements Output {
     @Override
     public void writeFLOATArray(int fieldNumber, float[] value) throws IOException {
         writeMessage(fieldNumber, () -> {
-            writeI32(value.length);
+            writeI32_Packed(value.length);
             for (float item : value) {
-                writeFLOAT(item);
+                writeFLOAT_Packed(item);
             }
         });
     }
@@ -364,9 +364,9 @@ public class ProtobjOutput extends WriteSession implements Output {
     @Override
     public void writeDOUBLEArray(int fieldNumber, double[] value) throws IOException {
         writeMessage(fieldNumber, () -> {
-            writeI32(value.length);
+            writeI32_Packed(value.length);
             for (double item : value) {
-                writeDOUBLE(item);
+                writeDOUBLE_Packed(item);
             }
         });
     }
@@ -378,8 +378,8 @@ public class ProtobjOutput extends WriteSession implements Output {
                 if (value[i] == null) {
                     continue;
                 }
-                writeI32(i);
-                writeSTRING(value[i]);
+                writeI32_Packed(i);
+                writeSTRING_Packed(value[i]);
             }
         });
     }
@@ -388,7 +388,7 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeI8List(int fieldNumber, ByteList value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (int i = 0; i < value.size(); i++) {
-                writeI8(value.getByte(i));
+                writeI8_Packed(value.getByte(i));
             }
         });
     }
@@ -397,7 +397,7 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeU8List(int fieldNumber, ByteList value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (int i = 0; i < value.size(); i++) {
-                writeU8(value.getByte(i));
+                writeU8_Packed(value.getByte(i));
             }
         });
     }
@@ -412,7 +412,7 @@ public class ProtobjOutput extends WriteSession implements Output {
             }
         }
         writeMessage(fieldNumber, () -> {
-            writeI32(value.size());
+            writeI32_Packed(value.size());
             tail = sink.writeByteArray(bytes, 0, bytes.length, ProtobjOutput.this, tail);
         });
     }
@@ -422,7 +422,7 @@ public class ProtobjOutput extends WriteSession implements Output {
         writeMessage(fieldNumber, () -> {
             for (int i = 0; i < value.size(); i++) {
                 short valueShort = value.getShort(i);
-                writeI16(valueShort);
+                writeI16_Packed(valueShort);
             }
         });
     }
@@ -432,7 +432,7 @@ public class ProtobjOutput extends WriteSession implements Output {
         writeMessage(fieldNumber, () -> {
             for (int i = 0; i < value.size(); i++) {
                 short valueShort = value.getShort(i);
-                writeU16(valueShort);
+                writeU16_Packed(valueShort);
             }
         });
     }
@@ -442,7 +442,7 @@ public class ProtobjOutput extends WriteSession implements Output {
         writeMessage(fieldNumber, () -> {
             for (int i = 0; i < value.size(); i++) {
                 int valueInt = value.getInt(i);
-                writeI32(valueInt);
+                writeI32_Packed(valueInt);
             }
         });
     }
@@ -452,7 +452,7 @@ public class ProtobjOutput extends WriteSession implements Output {
         writeMessage(fieldNumber, () -> {
             for (int i = 0; i < value.size(); i++) {
                 int valueInt = value.getInt(i);
-                writeU32(valueInt);
+                writeU32_Packed(valueInt);
             }
         });
     }
@@ -462,7 +462,7 @@ public class ProtobjOutput extends WriteSession implements Output {
         writeMessage(fieldNumber, () -> {
             for (int i = 0; i < value.size(); i++) {
                 int valueInt = value.getInt(i);
-                writeS32(valueInt);
+                writeS32_Packed(valueInt);
             }
         });
     }
@@ -472,7 +472,7 @@ public class ProtobjOutput extends WriteSession implements Output {
         writeMessage(fieldNumber, () -> {
             for (int i = 0; i < value.size(); i++) {
                 int valueInt = value.getInt(i);
-                writeF32(valueInt);
+                writeF32_Packed(valueInt);
             }
         });
     }
@@ -482,7 +482,7 @@ public class ProtobjOutput extends WriteSession implements Output {
         writeMessage(fieldNumber, () -> {
             for (int i = 0; i < value.size(); i++) {
                 int valueInt = value.getInt(i);
-                writeSF32(valueInt);
+                writeSF32_Packed(valueInt);
             }
         });
     }
@@ -492,7 +492,7 @@ public class ProtobjOutput extends WriteSession implements Output {
         writeMessage(fieldNumber, () -> {
             for (int i = 0; i < value.size(); i++) {
                 long valueLong = value.getLong(i);
-                writeI64(valueLong);
+                writeI64_Packed(valueLong);
             }
         });
     }
@@ -502,7 +502,7 @@ public class ProtobjOutput extends WriteSession implements Output {
         writeMessage(fieldNumber, () -> {
             for (int i = 0; i < value.size(); i++) {
                 long valueLong = value.getLong(i);
-                writeU64(valueLong);
+                writeU64_Packed(valueLong);
             }
         });
     }
@@ -512,7 +512,7 @@ public class ProtobjOutput extends WriteSession implements Output {
         writeMessage(fieldNumber, () -> {
             for (int i = 0; i < value.size(); i++) {
                 long valueLong = value.getLong(i);
-                writeS64(valueLong);
+                writeS64_Packed(valueLong);
             }
         });
     }
@@ -522,7 +522,7 @@ public class ProtobjOutput extends WriteSession implements Output {
         writeMessage(fieldNumber, () -> {
             for (int i = 0; i < value.size(); i++) {
                 long valueLong = value.getLong(i);
-                writeF64(valueLong);
+                writeF64_Packed(valueLong);
             }
         });
     }
@@ -532,7 +532,7 @@ public class ProtobjOutput extends WriteSession implements Output {
         writeMessage(fieldNumber, () -> {
             for (int i = 0; i < value.size(); i++) {
                 long valueLong = value.getLong(i);
-                writeSF64(valueLong);
+                writeSF64_Packed(valueLong);
             }
         });
     }
@@ -541,7 +541,7 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeFLOATList(int fieldNumber, FloatList value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (int i = 0; i < value.size(); i++) {
-                writeFLOAT(value.getFloat(i));
+                writeFLOAT_Packed(value.getFloat(i));
             }
         });
     }
@@ -550,7 +550,7 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeDOUBLEList(int fieldNumber, DoubleList value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (int i = 0; i < value.size(); i++) {
-                writeDOUBLE(value.getDouble(i));
+                writeDOUBLE_Packed(value.getDouble(i));
             }
         });
     }
@@ -562,12 +562,12 @@ public class ProtobjOutput extends WriteSession implements Output {
                 if (valueString == null) {
                     continue;
                 }
-                writeSTRING(valueString);
+                writeSTRING_Packed(valueString);
             }
         });
     }
 
-    public void writeSTRING(String value) throws IOException {
+    public void writeSTRING_Packed(String value) throws IOException {
         this.tail = this.sink.writeStrUTF8VarDelimited(value, ProtobjOutput.this, this.tail);
     }
 
@@ -576,7 +576,7 @@ public class ProtobjOutput extends WriteSession implements Output {
         writeMessage(fieldNumber, () -> {
             ByteIterator iterator = value.iterator();
             while (iterator.hasNext()) {
-                writeI8(iterator.nextByte());
+                writeI8_Packed(iterator.nextByte());
             }
         });
     }
@@ -587,7 +587,7 @@ public class ProtobjOutput extends WriteSession implements Output {
             ByteIterator iterator = value.iterator();
             while (iterator.hasNext()) {
                 byte nextByte = iterator.nextByte();
-                writeU8(nextByte);
+                writeU8_Packed(nextByte);
             }
         });
     }
@@ -597,7 +597,7 @@ public class ProtobjOutput extends WriteSession implements Output {
         writeMessage(fieldNumber, () -> {
             BooleanIterator iterator = value.iterator();
             while (iterator.hasNext()) {
-                writeBOOL(iterator.nextBoolean());
+                writeBOOL_Packed(iterator.nextBoolean());
             }
         });
     }
@@ -608,7 +608,7 @@ public class ProtobjOutput extends WriteSession implements Output {
             ShortIterator iterator = value.iterator();
             while (iterator.hasNext()) {
                 short nextShort = iterator.nextShort();
-                writeI16(nextShort);
+                writeI16_Packed(nextShort);
             }
         });
     }
@@ -618,7 +618,7 @@ public class ProtobjOutput extends WriteSession implements Output {
         writeMessage(fieldNumber, () -> {
             ShortIterator iterator = value.iterator();
             while (iterator.hasNext()) {
-                writeU16(iterator.nextShort());
+                writeU16_Packed(iterator.nextShort());
             }
         });
     }
@@ -629,7 +629,7 @@ public class ProtobjOutput extends WriteSession implements Output {
             IntIterator iterator = value.iterator();
             while (iterator.hasNext()) {
                 int nextInt = iterator.nextInt();
-                writeI32(nextInt);
+                writeI32_Packed(nextInt);
             }
         });
     }
@@ -640,7 +640,7 @@ public class ProtobjOutput extends WriteSession implements Output {
             IntIterator iterator = value.iterator();
             while (iterator.hasNext()) {
                 int nextInt = iterator.nextInt();
-                writeU32(nextInt);
+                writeU32_Packed(nextInt);
             }
         });
     }
@@ -651,7 +651,7 @@ public class ProtobjOutput extends WriteSession implements Output {
             IntIterator iterator = value.iterator();
             while (iterator.hasNext()) {
                 int nextInt = iterator.nextInt();
-                writeS32(nextInt);
+                writeS32_Packed(nextInt);
             }
         });
     }
@@ -662,7 +662,7 @@ public class ProtobjOutput extends WriteSession implements Output {
             IntIterator iterator = value.iterator();
             while (iterator.hasNext()) {
                 int nextInt = iterator.nextInt();
-                writeF32(nextInt);
+                writeF32_Packed(nextInt);
             }
         });
     }
@@ -673,7 +673,7 @@ public class ProtobjOutput extends WriteSession implements Output {
             IntIterator iterator = value.iterator();
             while (iterator.hasNext()) {
                 int nextInt = iterator.nextInt();
-                writeSF32(nextInt);
+                writeSF32_Packed(nextInt);
             }
         });
     }
@@ -683,7 +683,7 @@ public class ProtobjOutput extends WriteSession implements Output {
         writeMessage(fieldNumber, () -> {
             LongIterator iterator = value.iterator();
             while (iterator.hasNext()) {
-                writeI64(iterator.nextLong());
+                writeI64_Packed(iterator.nextLong());
             }
         });
     }
@@ -693,7 +693,7 @@ public class ProtobjOutput extends WriteSession implements Output {
         writeMessage(fieldNumber, () -> {
             LongIterator iterator = value.iterator();
             while (iterator.hasNext()) {
-                writeU64(iterator.nextLong());
+                writeU64_Packed(iterator.nextLong());
             }
         });
     }
@@ -703,7 +703,7 @@ public class ProtobjOutput extends WriteSession implements Output {
         writeMessage(fieldNumber, () -> {
             LongIterator iterator = value.iterator();
             while (iterator.hasNext()) {
-                writeS64(iterator.nextLong());
+                writeS64_Packed(iterator.nextLong());
             }
         });
     }
@@ -713,7 +713,7 @@ public class ProtobjOutput extends WriteSession implements Output {
         writeMessage(fieldNumber, () -> {
             LongIterator iterator = value.iterator();
             while (iterator.hasNext()) {
-                writeF64(iterator.nextLong());
+                writeF64_Packed(iterator.nextLong());
             }
         });
     }
@@ -723,7 +723,7 @@ public class ProtobjOutput extends WriteSession implements Output {
         writeMessage(fieldNumber, () -> {
             LongIterator iterator = value.iterator();
             while (iterator.hasNext()) {
-                writeSF64(iterator.nextLong());
+                writeSF64_Packed(iterator.nextLong());
             }
         });
     }
@@ -733,7 +733,7 @@ public class ProtobjOutput extends WriteSession implements Output {
         writeMessage(fieldNumber, () -> {
             FloatIterator iterator = value.iterator();
             while (iterator.hasNext()) {
-                writeFLOAT(iterator.nextFloat());
+                writeFLOAT_Packed(iterator.nextFloat());
             }
         });
 
@@ -744,7 +744,7 @@ public class ProtobjOutput extends WriteSession implements Output {
         writeMessage(fieldNumber, () -> {
             DoubleIterator doubleIterator = value.iterator();
             while (doubleIterator.hasNext()) {
-                writeDOUBLE(doubleIterator.nextDouble());
+                writeDOUBLE_Packed(doubleIterator.nextDouble());
             }
         });
     }
@@ -756,7 +756,7 @@ public class ProtobjOutput extends WriteSession implements Output {
                 if (nextString == null) {
                     continue;
                 }
-                writeSTRING(nextString);
+                writeSTRING_Packed(nextString);
             }
         });
     }
@@ -764,8 +764,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeI8BOOLMap(int fieldNumber, Byte2BooleanMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Byte2BooleanMap.Entry entry : value.byte2BooleanEntrySet()) {
-                writeI8(entry.getByteKey());
-                writeBOOL(entry.getBooleanValue());
+                writeI8_Packed(entry.getByteKey());
+                writeBOOL_Packed(entry.getBooleanValue());
             }
         });
     }
@@ -774,8 +774,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeI8I8Map(int fieldNumber, Byte2ByteMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Byte2ByteMap.Entry entry : value.byte2ByteEntrySet()) {
-                writeI8(entry.getByteKey());
-                writeI8(entry.getByteValue());
+                writeI8_Packed(entry.getByteKey());
+                writeI8_Packed(entry.getByteValue());
             }
         });
     }
@@ -784,8 +784,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeI8U8Map(int fieldNumber, Byte2ByteMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Byte2ByteMap.Entry entry : value.byte2ByteEntrySet()) {
-                writeI8(entry.getByteKey());
-                writeU8(entry.getByteValue());
+                writeI8_Packed(entry.getByteKey());
+                writeU8_Packed(entry.getByteValue());
             }
         });
     }
@@ -794,8 +794,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeI8I16Map(int fieldNumber, Byte2ShortMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Byte2ShortMap.Entry entry : value.byte2ShortEntrySet()) {
-                writeI8(entry.getByteKey());
-                writeI16(entry.getShortValue());
+                writeI8_Packed(entry.getByteKey());
+                writeI16_Packed(entry.getShortValue());
             }
         });
     }
@@ -804,8 +804,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeI8U16Map(int fieldNumber, Byte2ShortMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Byte2ShortMap.Entry entry : value.byte2ShortEntrySet()) {
-                writeI8(entry.getByteKey());
-                writeU16(entry.getShortValue());
+                writeI8_Packed(entry.getByteKey());
+                writeU16_Packed(entry.getShortValue());
             }
         });
     }
@@ -814,8 +814,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeI8I32Map(int fieldNumber, Byte2IntMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Byte2IntMap.Entry entry : value.byte2IntEntrySet()) {
-                writeI8(entry.getByteKey());
-                writeI32(entry.getIntValue());
+                writeI8_Packed(entry.getByteKey());
+                writeI32_Packed(entry.getIntValue());
             }
         });
     }
@@ -824,8 +824,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeI8U32Map(int fieldNumber, Byte2IntMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Byte2IntMap.Entry entry : value.byte2IntEntrySet()) {
-                writeI8(entry.getByteKey());
-                writeU32(entry.getIntValue());
+                writeI8_Packed(entry.getByteKey());
+                writeU32_Packed(entry.getIntValue());
             }
         });
     }
@@ -834,8 +834,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeI8S32Map(int fieldNumber, Byte2IntMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Byte2IntMap.Entry entry : value.byte2IntEntrySet()) {
-                writeI8(entry.getByteKey());
-                writeS32(entry.getIntValue());
+                writeI8_Packed(entry.getByteKey());
+                writeS32_Packed(entry.getIntValue());
             }
         });
     }
@@ -844,8 +844,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeI8F32Map(int fieldNumber, Byte2IntMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Byte2IntMap.Entry entry : value.byte2IntEntrySet()) {
-                writeI8(entry.getByteKey());
-                writeF32(entry.getIntValue());
+                writeI8_Packed(entry.getByteKey());
+                writeF32_Packed(entry.getIntValue());
             }
         });
     }
@@ -854,8 +854,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeI8SF32Map(int fieldNumber, Byte2IntMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Byte2IntMap.Entry entry : value.byte2IntEntrySet()) {
-                writeI8(entry.getByteKey());
-                writeSF32(entry.getIntValue());
+                writeI8_Packed(entry.getByteKey());
+                writeSF32_Packed(entry.getIntValue());
             }
         });
     }
@@ -864,8 +864,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeI8I64Map(int fieldNumber, Byte2LongMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Byte2LongMap.Entry entry : value.byte2LongEntrySet()) {
-                writeI8(entry.getByteKey());
-                writeI64(entry.getLongValue());
+                writeI8_Packed(entry.getByteKey());
+                writeI64_Packed(entry.getLongValue());
             }
         });
     }
@@ -874,8 +874,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeI8U64Map(int fieldNumber, Byte2LongMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Byte2LongMap.Entry entry : value.byte2LongEntrySet()) {
-                writeI8(entry.getByteKey());
-                writeU64(entry.getLongValue());
+                writeI8_Packed(entry.getByteKey());
+                writeU64_Packed(entry.getLongValue());
             }
         });
     }
@@ -884,8 +884,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeI8S64Map(int fieldNumber, Byte2LongMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Byte2LongMap.Entry entry : value.byte2LongEntrySet()) {
-                writeI8(entry.getByteKey());
-                writeS64(entry.getLongValue());
+                writeI8_Packed(entry.getByteKey());
+                writeS64_Packed(entry.getLongValue());
             }
         });
     }
@@ -894,8 +894,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeI8F64Map(int fieldNumber, Byte2LongMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Byte2LongMap.Entry entry : value.byte2LongEntrySet()) {
-                writeI8(entry.getByteKey());
-                writeF64(entry.getLongValue());
+                writeI8_Packed(entry.getByteKey());
+                writeF64_Packed(entry.getLongValue());
             }
         });
     }
@@ -904,8 +904,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeI8SF64Map(int fieldNumber, Byte2LongMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Byte2LongMap.Entry entry : value.byte2LongEntrySet()) {
-                writeI8(entry.getByteKey());
-                writeSF64(entry.getLongValue());
+                writeI8_Packed(entry.getByteKey());
+                writeSF64_Packed(entry.getLongValue());
             }
         });
     }
@@ -914,8 +914,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeI8STRINGMap(int fieldNumber, Byte2ObjectMap<String> value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Byte2ObjectMap.Entry<String> entry : value.byte2ObjectEntrySet()) {
-                writeI8(entry.getByteKey());
-                writeSTRING(entry.getValue());
+                writeI8_Packed(entry.getByteKey());
+                writeSTRING_Packed(entry.getValue());
             }
         });
     }
@@ -924,8 +924,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeI8DOUBLEMap(int fieldNumber, Byte2DoubleMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Byte2DoubleMap.Entry entry : value.byte2DoubleEntrySet()) {
-                writeI8(entry.getByteKey());
-                writeDOUBLE(entry.getDoubleValue());
+                writeI8_Packed(entry.getByteKey());
+                writeDOUBLE_Packed(entry.getDoubleValue());
             }
         });
     }
@@ -934,8 +934,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeI8FLOATMap(int fieldNumber, Byte2FloatMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Byte2FloatMap.Entry entry : value.byte2FloatEntrySet()) {
-                writeI8(entry.getByteKey());
-                writeFLOAT(entry.getFloatValue());
+                writeI8_Packed(entry.getByteKey());
+                writeFLOAT_Packed(entry.getFloatValue());
             }
         });
     }
@@ -944,8 +944,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeU8BOOLMap(int fieldNumber, Byte2BooleanMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Byte2BooleanMap.Entry entry : value.byte2BooleanEntrySet()) {
-                writeU8(entry.getByteKey());
-                writeBOOL(entry.getBooleanValue());
+                writeU8_Packed(entry.getByteKey());
+                writeBOOL_Packed(entry.getBooleanValue());
             }
         });
     }
@@ -954,8 +954,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeU8I8Map(int fieldNumber, Byte2ByteMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Byte2ByteMap.Entry entry : value.byte2ByteEntrySet()) {
-                writeU8(entry.getByteKey());
-                writeI8(entry.getByteValue());
+                writeU8_Packed(entry.getByteKey());
+                writeI8_Packed(entry.getByteValue());
             }
         });
     }
@@ -964,8 +964,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeU8U8Map(int fieldNumber, Byte2ByteMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Byte2ByteMap.Entry entry : value.byte2ByteEntrySet()) {
-                writeU8(entry.getByteKey());
-                writeU8(entry.getByteValue());
+                writeU8_Packed(entry.getByteKey());
+                writeU8_Packed(entry.getByteValue());
             }
         });
     }
@@ -974,8 +974,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeU8I16Map(int fieldNumber, Byte2ShortMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Byte2ShortMap.Entry entry : value.byte2ShortEntrySet()) {
-                writeU8(entry.getByteKey());
-                writeI16(entry.getShortValue());
+                writeU8_Packed(entry.getByteKey());
+                writeI16_Packed(entry.getShortValue());
             }
         });
     }
@@ -984,8 +984,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeU8U16Map(int fieldNumber, Byte2ShortMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Byte2ShortMap.Entry entry : value.byte2ShortEntrySet()) {
-                writeU8(entry.getByteKey());
-                writeU16(entry.getShortValue());
+                writeU8_Packed(entry.getByteKey());
+                writeU16_Packed(entry.getShortValue());
             }
         });
     }
@@ -994,8 +994,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeU8I32Map(int fieldNumber, Byte2IntMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Byte2IntMap.Entry entry : value.byte2IntEntrySet()) {
-                writeU8(entry.getByteKey());
-                writeI32(entry.getIntValue());
+                writeU8_Packed(entry.getByteKey());
+                writeI32_Packed(entry.getIntValue());
             }
         });
     }
@@ -1004,8 +1004,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeU8U32Map(int fieldNumber, Byte2IntMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Byte2IntMap.Entry entry : value.byte2IntEntrySet()) {
-                writeU8(entry.getByteKey());
-                writeU32(entry.getIntValue());
+                writeU8_Packed(entry.getByteKey());
+                writeU32_Packed(entry.getIntValue());
             }
         });
     }
@@ -1014,8 +1014,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeU8S32Map(int fieldNumber, Byte2IntMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Byte2IntMap.Entry entry : value.byte2IntEntrySet()) {
-                writeU8(entry.getByteKey());
-                writeS32(entry.getIntValue());
+                writeU8_Packed(entry.getByteKey());
+                writeS32_Packed(entry.getIntValue());
             }
         });
     }
@@ -1024,8 +1024,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeU8F32Map(int fieldNumber, Byte2IntMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Byte2IntMap.Entry entry : value.byte2IntEntrySet()) {
-                writeU8(entry.getByteKey());
-                writeF32(entry.getIntValue());
+                writeU8_Packed(entry.getByteKey());
+                writeF32_Packed(entry.getIntValue());
             }
         });
     }
@@ -1034,8 +1034,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeU8SF32Map(int fieldNumber, Byte2IntMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Byte2IntMap.Entry entry : value.byte2IntEntrySet()) {
-                writeU8(entry.getByteKey());
-                writeSF32(entry.getIntValue());
+                writeU8_Packed(entry.getByteKey());
+                writeSF32_Packed(entry.getIntValue());
             }
         });
     }
@@ -1044,8 +1044,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeU8I64Map(int fieldNumber, Byte2LongMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Byte2LongMap.Entry entry : value.byte2LongEntrySet()) {
-                writeU8(entry.getByteKey());
-                writeI64(entry.getLongValue());
+                writeU8_Packed(entry.getByteKey());
+                writeI64_Packed(entry.getLongValue());
             }
         });
     }
@@ -1054,8 +1054,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeU8U64Map(int fieldNumber, Byte2LongMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Byte2LongMap.Entry entry : value.byte2LongEntrySet()) {
-                writeU8(entry.getByteKey());
-                writeU64(entry.getLongValue());
+                writeU8_Packed(entry.getByteKey());
+                writeU64_Packed(entry.getLongValue());
             }
         });
     }
@@ -1064,8 +1064,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeU8S64Map(int fieldNumber, Byte2LongMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Byte2LongMap.Entry entry : value.byte2LongEntrySet()) {
-                writeU8(entry.getByteKey());
-                writeS64(entry.getLongValue());
+                writeU8_Packed(entry.getByteKey());
+                writeS64_Packed(entry.getLongValue());
             }
         });
     }
@@ -1074,8 +1074,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeU8F64Map(int fieldNumber, Byte2LongMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Byte2LongMap.Entry entry : value.byte2LongEntrySet()) {
-                writeU8(entry.getByteKey());
-                writeF64(entry.getLongValue());
+                writeU8_Packed(entry.getByteKey());
+                writeF64_Packed(entry.getLongValue());
             }
         });
     }
@@ -1084,8 +1084,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeU8SF64Map(int fieldNumber, Byte2LongMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Byte2LongMap.Entry entry : value.byte2LongEntrySet()) {
-                writeU8(entry.getByteKey());
-                writeSF64(entry.getLongValue());
+                writeU8_Packed(entry.getByteKey());
+                writeSF64_Packed(entry.getLongValue());
             }
         });
     }
@@ -1097,8 +1097,8 @@ public class ProtobjOutput extends WriteSession implements Output {
                 if (entry.getValue() == null) {
                     continue;
                 }
-                writeU8(entry.getByteKey());
-                writeSTRING(entry.getValue());
+                writeU8_Packed(entry.getByteKey());
+                writeSTRING_Packed(entry.getValue());
             }
         });
     }
@@ -1107,8 +1107,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeU8DOUBLEMap(int fieldNumber, Byte2DoubleMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Byte2DoubleMap.Entry entry : value.byte2DoubleEntrySet()) {
-                writeU8(entry.getByteKey());
-                writeDOUBLE(entry.getDoubleValue());
+                writeU8_Packed(entry.getByteKey());
+                writeDOUBLE_Packed(entry.getDoubleValue());
             }
         });
     }
@@ -1117,8 +1117,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeU8FLOATMap(int fieldNumber, Byte2FloatMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Byte2FloatMap.Entry entry : value.byte2FloatEntrySet()) {
-                writeU8(entry.getByteKey());
-                writeFLOAT(entry.getFloatValue());
+                writeU8_Packed(entry.getByteKey());
+                writeFLOAT_Packed(entry.getFloatValue());
             }
         });
     }
@@ -1127,8 +1127,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeI16BOOLMap(int fieldNumber, Short2BooleanMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Short2BooleanMap.Entry entry : value.short2BooleanEntrySet()) {
-                writeI16(entry.getShortKey());
-                writeBOOL(entry.getBooleanValue());
+                writeI16_Packed(entry.getShortKey());
+                writeBOOL_Packed(entry.getBooleanValue());
             }
         });
     }
@@ -1137,8 +1137,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeI16I8Map(int fieldNumber, Short2ByteMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Short2ByteMap.Entry entry : value.short2ByteEntrySet()) {
-                writeI16(entry.getShortKey());
-                writeI8(entry.getByteValue());
+                writeI16_Packed(entry.getShortKey());
+                writeI8_Packed(entry.getByteValue());
             }
         });
     }
@@ -1147,8 +1147,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeI16U8Map(int fieldNumber, Short2ByteMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Short2ByteMap.Entry entry : value.short2ByteEntrySet()) {
-                writeI16(entry.getShortKey());
-                writeU8(entry.getByteValue());
+                writeI16_Packed(entry.getShortKey());
+                writeU8_Packed(entry.getByteValue());
             }
         });
     }
@@ -1157,8 +1157,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeI16I16Map(int fieldNumber, Short2ShortMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Short2ShortMap.Entry entry : value.short2ShortEntrySet()) {
-                writeI16(entry.getShortKey());
-                writeI16(entry.getShortValue());
+                writeI16_Packed(entry.getShortKey());
+                writeI16_Packed(entry.getShortValue());
             }
         });
     }
@@ -1167,8 +1167,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeI16U16Map(int fieldNumber, Short2ShortMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Short2ShortMap.Entry entry : value.short2ShortEntrySet()) {
-                writeI16(entry.getShortKey());
-                writeU16(entry.getShortValue());
+                writeI16_Packed(entry.getShortKey());
+                writeU16_Packed(entry.getShortValue());
             }
         });
     }
@@ -1177,8 +1177,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeI16I32Map(int fieldNumber, Short2IntMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Short2IntMap.Entry entry : value.short2IntEntrySet()) {
-                writeI16(entry.getShortKey());
-                writeI32(entry.getIntValue());
+                writeI16_Packed(entry.getShortKey());
+                writeI32_Packed(entry.getIntValue());
             }
         });
     }
@@ -1187,8 +1187,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeI16U32Map(int fieldNumber, Short2IntMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Short2IntMap.Entry entry : value.short2IntEntrySet()) {
-                writeI16(entry.getShortKey());
-                writeU32(entry.getIntValue());
+                writeI16_Packed(entry.getShortKey());
+                writeU32_Packed(entry.getIntValue());
             }
         });
     }
@@ -1197,8 +1197,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeI16S32Map(int fieldNumber, Short2IntMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Short2IntMap.Entry entry : value.short2IntEntrySet()) {
-                writeI16(entry.getShortKey());
-                writeS32(entry.getIntValue());
+                writeI16_Packed(entry.getShortKey());
+                writeS32_Packed(entry.getIntValue());
             }
         });
     }
@@ -1207,8 +1207,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeI16F32Map(int fieldNumber, Short2IntMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Short2IntMap.Entry entry : value.short2IntEntrySet()) {
-                writeI16(entry.getShortKey());
-                writeF32(entry.getIntValue());
+                writeI16_Packed(entry.getShortKey());
+                writeF32_Packed(entry.getIntValue());
             }
         });
     }
@@ -1217,8 +1217,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeI16SF32Map(int fieldNumber, Short2IntMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Short2IntMap.Entry entry : value.short2IntEntrySet()) {
-                writeI16(entry.getShortKey());
-                writeSF32(entry.getIntValue());
+                writeI16_Packed(entry.getShortKey());
+                writeSF32_Packed(entry.getIntValue());
             }
         });
     }
@@ -1227,8 +1227,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeI16I64Map(int fieldNumber, Short2LongMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Short2LongMap.Entry entry : value.short2LongEntrySet()) {
-                writeI16(entry.getShortKey());
-                writeI64(entry.getLongValue());
+                writeI16_Packed(entry.getShortKey());
+                writeI64_Packed(entry.getLongValue());
             }
         });
     }
@@ -1237,8 +1237,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeI16U64Map(int fieldNumber, Short2LongMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Short2LongMap.Entry entry : value.short2LongEntrySet()) {
-                writeI16(entry.getShortKey());
-                writeU64(entry.getLongValue());
+                writeI16_Packed(entry.getShortKey());
+                writeU64_Packed(entry.getLongValue());
             }
         });
     }
@@ -1247,8 +1247,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeI16S64Map(int fieldNumber, Short2LongMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Short2LongMap.Entry entry : value.short2LongEntrySet()) {
-                writeI16(entry.getShortKey());
-                writeS64(entry.getLongValue());
+                writeI16_Packed(entry.getShortKey());
+                writeS64_Packed(entry.getLongValue());
             }
         });
     }
@@ -1257,8 +1257,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeI16F64Map(int fieldNumber, Short2LongMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Short2LongMap.Entry entry : value.short2LongEntrySet()) {
-                writeI16(entry.getShortKey());
-                writeF64(entry.getLongValue());
+                writeI16_Packed(entry.getShortKey());
+                writeF64_Packed(entry.getLongValue());
             }
         });
     }
@@ -1267,8 +1267,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeI16SF64Map(int fieldNumber, Short2LongMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Short2LongMap.Entry entry : value.short2LongEntrySet()) {
-                writeI16(entry.getShortKey());
-                writeSF64(entry.getLongValue());
+                writeI16_Packed(entry.getShortKey());
+                writeSF64_Packed(entry.getLongValue());
             }
         });
     }
@@ -1280,8 +1280,8 @@ public class ProtobjOutput extends WriteSession implements Output {
                 if (entry.getValue() == null) {
                     continue;
                 }
-                writeI16(entry.getShortKey());
-                writeSTRING(entry.getValue());
+                writeI16_Packed(entry.getShortKey());
+                writeSTRING_Packed(entry.getValue());
             }
         });
     }
@@ -1290,8 +1290,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeI16DOUBLEMap(int fieldNumber, Short2DoubleMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Short2DoubleMap.Entry entry : value.short2DoubleEntrySet()) {
-                writeI16(entry.getShortKey());
-                writeDOUBLE(entry.getDoubleValue());
+                writeI16_Packed(entry.getShortKey());
+                writeDOUBLE_Packed(entry.getDoubleValue());
             }
         });
     }
@@ -1300,8 +1300,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeI16FLOATMap(int fieldNumber, Short2FloatMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Short2FloatMap.Entry entry : value.short2FloatEntrySet()) {
-                writeI16(entry.getShortKey());
-                writeFLOAT(entry.getFloatValue());
+                writeI16_Packed(entry.getShortKey());
+                writeFLOAT_Packed(entry.getFloatValue());
             }
         });
     }
@@ -1310,8 +1310,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeU16BOOLMap(int fieldNumber, Short2BooleanMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Short2BooleanMap.Entry entry : value.short2BooleanEntrySet()) {
-                writeU16(entry.getShortKey());
-                writeBOOL(entry.getBooleanValue());
+                writeU16_Packed(entry.getShortKey());
+                writeBOOL_Packed(entry.getBooleanValue());
             }
         });
     }
@@ -1320,8 +1320,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeU16I8Map(int fieldNumber, Short2ByteMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Short2ByteMap.Entry entry : value.short2ByteEntrySet()) {
-                writeU16(entry.getShortKey());
-                writeI8(entry.getByteValue());
+                writeU16_Packed(entry.getShortKey());
+                writeI8_Packed(entry.getByteValue());
             }
         });
     }
@@ -1330,8 +1330,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeU16U8Map(int fieldNumber, Short2ByteMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Short2ByteMap.Entry entry : value.short2ByteEntrySet()) {
-                writeU16(entry.getShortKey());
-                writeU8(entry.getByteValue());
+                writeU16_Packed(entry.getShortKey());
+                writeU8_Packed(entry.getByteValue());
             }
         });
     }
@@ -1340,8 +1340,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeU16I16Map(int fieldNumber, Short2ShortMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Short2ShortMap.Entry entry : value.short2ShortEntrySet()) {
-                writeU16(entry.getShortKey());
-                writeI16(entry.getShortValue());
+                writeU16_Packed(entry.getShortKey());
+                writeI16_Packed(entry.getShortValue());
             }
         });
     }
@@ -1350,8 +1350,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeU16U16Map(int fieldNumber, Short2ShortMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Short2ShortMap.Entry entry : value.short2ShortEntrySet()) {
-                writeU16(entry.getShortKey());
-                writeU16(entry.getShortValue());
+                writeU16_Packed(entry.getShortKey());
+                writeU16_Packed(entry.getShortValue());
             }
         });
     }
@@ -1360,8 +1360,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeU16I32Map(int fieldNumber, Short2IntMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Short2IntMap.Entry entry : value.short2IntEntrySet()) {
-                writeU16(entry.getShortKey());
-                writeI32(entry.getIntValue());
+                writeU16_Packed(entry.getShortKey());
+                writeI32_Packed(entry.getIntValue());
             }
         });
     }
@@ -1370,8 +1370,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeU16U32Map(int fieldNumber, Short2IntMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Short2IntMap.Entry entry : value.short2IntEntrySet()) {
-                writeU16(entry.getShortKey());
-                writeU32(entry.getIntValue());
+                writeU16_Packed(entry.getShortKey());
+                writeU32_Packed(entry.getIntValue());
             }
         });
     }
@@ -1380,8 +1380,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeU16S32Map(int fieldNumber, Short2IntMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Short2IntMap.Entry entry : value.short2IntEntrySet()) {
-                writeU16(entry.getShortKey());
-                writeS32(entry.getIntValue());
+                writeU16_Packed(entry.getShortKey());
+                writeS32_Packed(entry.getIntValue());
             }
         });
     }
@@ -1390,8 +1390,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeU16F32Map(int fieldNumber, Short2IntMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Short2IntMap.Entry entry : value.short2IntEntrySet()) {
-                writeU16(entry.getShortKey());
-                writeF32(entry.getIntValue());
+                writeU16_Packed(entry.getShortKey());
+                writeF32_Packed(entry.getIntValue());
             }
         });
     }
@@ -1400,8 +1400,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeU16SF32Map(int fieldNumber, Short2IntMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Short2IntMap.Entry entry : value.short2IntEntrySet()) {
-                writeU16(entry.getShortKey());
-                writeSF32(entry.getIntValue());
+                writeU16_Packed(entry.getShortKey());
+                writeSF32_Packed(entry.getIntValue());
             }
         });
     }
@@ -1410,8 +1410,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeU16I64Map(int fieldNumber, Short2LongMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Short2LongMap.Entry entry : value.short2LongEntrySet()) {
-                writeU16(entry.getShortKey());
-                writeI64(entry.getLongValue());
+                writeU16_Packed(entry.getShortKey());
+                writeI64_Packed(entry.getLongValue());
             }
         });
     }
@@ -1420,8 +1420,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeU16U64Map(int fieldNumber, Short2LongMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Short2LongMap.Entry entry : value.short2LongEntrySet()) {
-                writeU16(entry.getShortKey());
-                writeU64(entry.getLongValue());
+                writeU16_Packed(entry.getShortKey());
+                writeU64_Packed(entry.getLongValue());
             }
         });
     }
@@ -1430,8 +1430,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeU16S64Map(int fieldNumber, Short2LongMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Short2LongMap.Entry entry : value.short2LongEntrySet()) {
-                writeU16(entry.getShortKey());
-                writeS64(entry.getLongValue());
+                writeU16_Packed(entry.getShortKey());
+                writeS64_Packed(entry.getLongValue());
             }
         });
     }
@@ -1440,8 +1440,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeU16F64Map(int fieldNumber, Short2LongMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Short2LongMap.Entry entry : value.short2LongEntrySet()) {
-                writeU16(entry.getShortKey());
-                writeF64(entry.getLongValue());
+                writeU16_Packed(entry.getShortKey());
+                writeF64_Packed(entry.getLongValue());
             }
         });
     }
@@ -1450,8 +1450,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeU16SF64Map(int fieldNumber, Short2LongMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Short2LongMap.Entry entry : value.short2LongEntrySet()) {
-                writeU16(entry.getShortKey());
-                writeSF64(entry.getLongValue());
+                writeU16_Packed(entry.getShortKey());
+                writeSF64_Packed(entry.getLongValue());
             }
         });
     }
@@ -1463,8 +1463,8 @@ public class ProtobjOutput extends WriteSession implements Output {
                 if (entry.getValue() == null) {
                     continue;
                 }
-                writeU16(entry.getShortKey());
-                writeSTRING(entry.getValue());
+                writeU16_Packed(entry.getShortKey());
+                writeSTRING_Packed(entry.getValue());
             }
         });
     }
@@ -1473,8 +1473,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeU16DOUBLEMap(int fieldNumber, Short2DoubleMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Short2DoubleMap.Entry entry : value.short2DoubleEntrySet()) {
-                writeU16(entry.getShortKey());
-                writeDOUBLE(entry.getDoubleValue());
+                writeU16_Packed(entry.getShortKey());
+                writeDOUBLE_Packed(entry.getDoubleValue());
             }
         });
     }
@@ -1483,8 +1483,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeU16FLOATMap(int fieldNumber, Short2FloatMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Short2FloatMap.Entry entry : value.short2FloatEntrySet()) {
-                writeU16(entry.getShortKey());
-                writeFLOAT(entry.getFloatValue());
+                writeU16_Packed(entry.getShortKey());
+                writeFLOAT_Packed(entry.getFloatValue());
             }
         });
     }
@@ -1493,8 +1493,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeI32BOOLMap(int fieldNumber, Int2BooleanMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Int2BooleanMap.Entry entry : value.int2BooleanEntrySet()) {
-                writeI32(entry.getIntKey());
-                writeBOOL(entry.getBooleanValue());
+                writeI32_Packed(entry.getIntKey());
+                writeBOOL_Packed(entry.getBooleanValue());
             }
         });
     }
@@ -1503,8 +1503,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeI32I8Map(int fieldNumber, Int2ByteMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Int2ByteMap.Entry entry : value.int2ByteEntrySet()) {
-                writeI32(entry.getIntKey());
-                writeI8(entry.getByteValue());
+                writeI32_Packed(entry.getIntKey());
+                writeI8_Packed(entry.getByteValue());
             }
         });
     }
@@ -1513,8 +1513,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeI32U8Map(int fieldNumber, Int2ByteMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Int2ByteMap.Entry entry : value.int2ByteEntrySet()) {
-                writeI32(entry.getIntKey());
-                writeU8(entry.getByteValue());
+                writeI32_Packed(entry.getIntKey());
+                writeU8_Packed(entry.getByteValue());
             }
         });
     }
@@ -1523,8 +1523,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeI32I16Map(int fieldNumber, Int2ShortMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Int2ShortMap.Entry entry : value.int2ShortEntrySet()) {
-                writeI32(entry.getIntKey());
-                writeI16(entry.getShortValue());
+                writeI32_Packed(entry.getIntKey());
+                writeI16_Packed(entry.getShortValue());
             }
         });
     }
@@ -1533,8 +1533,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeI32U16Map(int fieldNumber, Int2ShortMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Int2ShortMap.Entry entry : value.int2ShortEntrySet()) {
-                writeI32(entry.getIntKey());
-                writeU16(entry.getShortValue());
+                writeI32_Packed(entry.getIntKey());
+                writeU16_Packed(entry.getShortValue());
             }
         });
     }
@@ -1543,8 +1543,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeI32I32Map(int fieldNumber, Int2IntMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Int2IntMap.Entry entry : value.int2IntEntrySet()) {
-                writeI32(entry.getIntKey());
-                writeI32(entry.getIntValue());
+                writeI32_Packed(entry.getIntKey());
+                writeI32_Packed(entry.getIntValue());
             }
         });
     }
@@ -1553,8 +1553,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeI32U32Map(int fieldNumber, Int2IntMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Int2IntMap.Entry entry : value.int2IntEntrySet()) {
-                writeI32(entry.getIntKey());
-                writeU32(entry.getIntValue());
+                writeI32_Packed(entry.getIntKey());
+                writeU32_Packed(entry.getIntValue());
             }
         });
     }
@@ -1563,8 +1563,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeI32S32Map(int fieldNumber, Int2IntMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Int2IntMap.Entry entry : value.int2IntEntrySet()) {
-                writeI32(entry.getIntKey());
-                writeS32(entry.getIntValue());
+                writeI32_Packed(entry.getIntKey());
+                writeS32_Packed(entry.getIntValue());
             }
         });
     }
@@ -1573,8 +1573,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeI32F32Map(int fieldNumber, Int2IntMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Int2IntMap.Entry entry : value.int2IntEntrySet()) {
-                writeI32(entry.getIntKey());
-                writeF32(entry.getIntValue());
+                writeI32_Packed(entry.getIntKey());
+                writeF32_Packed(entry.getIntValue());
             }
         });
     }
@@ -1583,8 +1583,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeI32SF32Map(int fieldNumber, Int2IntMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Int2IntMap.Entry entry : value.int2IntEntrySet()) {
-                writeI32(entry.getIntKey());
-                writeSF32(entry.getIntValue());
+                writeI32_Packed(entry.getIntKey());
+                writeSF32_Packed(entry.getIntValue());
             }
         });
     }
@@ -1593,8 +1593,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeI32I64Map(int fieldNumber, Int2LongMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Int2LongMap.Entry entry : value.int2LongEntrySet()) {
-                writeI32(entry.getIntKey());
-                writeI64(entry.getLongValue());
+                writeI32_Packed(entry.getIntKey());
+                writeI64_Packed(entry.getLongValue());
             }
         });
     }
@@ -1603,8 +1603,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeI32U64Map(int fieldNumber, Int2LongMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Int2LongMap.Entry entry : value.int2LongEntrySet()) {
-                writeI32(entry.getIntKey());
-                writeU64(entry.getLongValue());
+                writeI32_Packed(entry.getIntKey());
+                writeU64_Packed(entry.getLongValue());
             }
         });
     }
@@ -1613,8 +1613,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeI32S64Map(int fieldNumber, Int2LongMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Int2LongMap.Entry entry : value.int2LongEntrySet()) {
-                writeI32(entry.getIntKey());
-                writeS64(entry.getLongValue());
+                writeI32_Packed(entry.getIntKey());
+                writeS64_Packed(entry.getLongValue());
             }
         });
     }
@@ -1623,8 +1623,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeI32F64Map(int fieldNumber, Int2LongMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Int2LongMap.Entry entry : value.int2LongEntrySet()) {
-                writeI32(entry.getIntKey());
-                writeF64(entry.getLongValue());
+                writeI32_Packed(entry.getIntKey());
+                writeF64_Packed(entry.getLongValue());
             }
         });
     }
@@ -1633,8 +1633,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeI32SF64Map(int fieldNumber, Int2LongMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Int2LongMap.Entry entry : value.int2LongEntrySet()) {
-                writeI32(entry.getIntKey());
-                writeSF64(entry.getLongValue());
+                writeI32_Packed(entry.getIntKey());
+                writeSF64_Packed(entry.getLongValue());
             }
         });
     }
@@ -1646,8 +1646,8 @@ public class ProtobjOutput extends WriteSession implements Output {
                 if (entry.getValue() == null) {
                     continue;
                 }
-                writeI32(entry.getIntKey());
-                writeSTRING(entry.getValue());
+                writeI32_Packed(entry.getIntKey());
+                writeSTRING_Packed(entry.getValue());
             }
         });
     }
@@ -1656,8 +1656,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeI32DOUBLEMap(int fieldNumber, Int2DoubleMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Int2DoubleMap.Entry entry : value.int2DoubleEntrySet()) {
-                writeI32(entry.getIntKey());
-                writeDOUBLE(entry.getDoubleValue());
+                writeI32_Packed(entry.getIntKey());
+                writeDOUBLE_Packed(entry.getDoubleValue());
             }
         });
     }
@@ -1666,8 +1666,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeI32FLOATMap(int fieldNumber, Int2FloatMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Int2FloatMap.Entry entry : value.int2FloatEntrySet()) {
-                writeI32(entry.getIntKey());
-                writeFLOAT(entry.getFloatValue());
+                writeI32_Packed(entry.getIntKey());
+                writeFLOAT_Packed(entry.getFloatValue());
             }
         });
     }
@@ -1676,8 +1676,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeU32BOOLMap(int fieldNumber, Int2BooleanMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Int2BooleanMap.Entry entry : value.int2BooleanEntrySet()) {
-                writeU32(entry.getIntKey());
-                writeBOOL(entry.getBooleanValue());
+                writeU32_Packed(entry.getIntKey());
+                writeBOOL_Packed(entry.getBooleanValue());
             }
         });
     }
@@ -1686,8 +1686,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeU32I8Map(int fieldNumber, Int2ByteMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Int2ByteMap.Entry entry : value.int2ByteEntrySet()) {
-                writeU32(entry.getIntKey());
-                writeI8(entry.getByteValue());
+                writeU32_Packed(entry.getIntKey());
+                writeI8_Packed(entry.getByteValue());
             }
         });
     }
@@ -1696,8 +1696,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeU32U8Map(int fieldNumber, Int2ByteMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Int2ByteMap.Entry entry : value.int2ByteEntrySet()) {
-                writeU32(entry.getIntKey());
-                writeU8(entry.getByteValue());
+                writeU32_Packed(entry.getIntKey());
+                writeU8_Packed(entry.getByteValue());
             }
         });
     }
@@ -1706,8 +1706,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeU32I16Map(int fieldNumber, Int2ShortMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Int2ShortMap.Entry entry : value.int2ShortEntrySet()) {
-                writeU32(entry.getIntKey());
-                writeI16(entry.getShortValue());
+                writeU32_Packed(entry.getIntKey());
+                writeI16_Packed(entry.getShortValue());
             }
         });
     }
@@ -1716,8 +1716,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeU32U16Map(int fieldNumber, Int2ShortMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Int2ShortMap.Entry entry : value.int2ShortEntrySet()) {
-                writeU32(entry.getIntKey());
-                writeU16(entry.getShortValue());
+                writeU32_Packed(entry.getIntKey());
+                writeU16_Packed(entry.getShortValue());
             }
         });
     }
@@ -1726,8 +1726,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeU32I32Map(int fieldNumber, Int2IntMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Int2IntMap.Entry entry : value.int2IntEntrySet()) {
-                writeU32(entry.getIntKey());
-                writeI32(entry.getIntValue());
+                writeU32_Packed(entry.getIntKey());
+                writeI32_Packed(entry.getIntValue());
             }
         });
     }
@@ -1736,8 +1736,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeU32U32Map(int fieldNumber, Int2IntMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Int2IntMap.Entry entry : value.int2IntEntrySet()) {
-                writeU32(entry.getIntKey());
-                writeU32(entry.getIntValue());
+                writeU32_Packed(entry.getIntKey());
+                writeU32_Packed(entry.getIntValue());
             }
         });
     }
@@ -1746,8 +1746,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeU32S32Map(int fieldNumber, Int2IntMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Int2IntMap.Entry entry : value.int2IntEntrySet()) {
-                writeU32(entry.getIntKey());
-                writeS32(entry.getIntValue());
+                writeU32_Packed(entry.getIntKey());
+                writeS32_Packed(entry.getIntValue());
             }
         });
     }
@@ -1755,8 +1755,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeU32F32Map(int fieldNumber, Int2IntMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Int2IntMap.Entry entry : value.int2IntEntrySet()) {
-                writeU32(entry.getIntKey());
-                writeF32(entry.getIntValue());
+                writeU32_Packed(entry.getIntKey());
+                writeF32_Packed(entry.getIntValue());
             }
         });
     }
@@ -1765,8 +1765,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeU32SF32Map(int fieldNumber, Int2IntMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Int2IntMap.Entry entry : value.int2IntEntrySet()) {
-                writeU32(entry.getIntKey());
-                writeSF32(entry.getIntValue());
+                writeU32_Packed(entry.getIntKey());
+                writeSF32_Packed(entry.getIntValue());
             }
         });
     }
@@ -1775,8 +1775,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeU32I64Map(int fieldNumber, Int2LongMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Int2LongMap.Entry entry : value.int2LongEntrySet()) {
-                writeU32(entry.getIntKey());
-                writeI64(entry.getLongValue());
+                writeU32_Packed(entry.getIntKey());
+                writeI64_Packed(entry.getLongValue());
             }
         });
     }
@@ -1785,8 +1785,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeU32U64Map(int fieldNumber, Int2LongMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Int2LongMap.Entry entry : value.int2LongEntrySet()) {
-                writeU32(entry.getIntKey());
-                writeU64(entry.getLongValue());
+                writeU32_Packed(entry.getIntKey());
+                writeU64_Packed(entry.getLongValue());
             }
         });
     }
@@ -1795,8 +1795,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeU32S64Map(int fieldNumber, Int2LongMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Int2LongMap.Entry entry : value.int2LongEntrySet()) {
-                writeU32(entry.getIntKey());
-                writeS64(entry.getLongValue());
+                writeU32_Packed(entry.getIntKey());
+                writeS64_Packed(entry.getLongValue());
             }
         });
     }
@@ -1805,8 +1805,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeU32F64Map(int fieldNumber, Int2LongMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Int2LongMap.Entry entry : value.int2LongEntrySet()) {
-                writeU32(entry.getIntKey());
-                writeF64(entry.getLongValue());
+                writeU32_Packed(entry.getIntKey());
+                writeF64_Packed(entry.getLongValue());
             }
         });
     }
@@ -1815,8 +1815,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeU32SF64Map(int fieldNumber, Int2LongMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Int2LongMap.Entry entry : value.int2LongEntrySet()) {
-                writeU32(entry.getIntKey());
-                writeSF64(entry.getLongValue());
+                writeU32_Packed(entry.getIntKey());
+                writeSF64_Packed(entry.getLongValue());
             }
         });
     }
@@ -1828,8 +1828,8 @@ public class ProtobjOutput extends WriteSession implements Output {
                 if (entry.getValue() == null) {
                     continue;
                 }
-                writeU32(entry.getIntKey());
-                writeSTRING(entry.getValue());
+                writeU32_Packed(entry.getIntKey());
+                writeSTRING_Packed(entry.getValue());
             }
         });
     }
@@ -1838,8 +1838,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeU32DOUBLEMap(int fieldNumber, Int2DoubleMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Int2DoubleMap.Entry entry : value.int2DoubleEntrySet()) {
-                writeU32(entry.getIntKey());
-                writeDOUBLE(entry.getDoubleValue());
+                writeU32_Packed(entry.getIntKey());
+                writeDOUBLE_Packed(entry.getDoubleValue());
             }
         });
     }
@@ -1848,8 +1848,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeU32FLOATMap(int fieldNumber, Int2FloatMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Int2FloatMap.Entry entry : value.int2FloatEntrySet()) {
-                writeU32(entry.getIntKey());
-                writeFLOAT(entry.getFloatValue());
+                writeU32_Packed(entry.getIntKey());
+                writeFLOAT_Packed(entry.getFloatValue());
             }
         });
     }
@@ -1858,8 +1858,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeS32BOOLMap(int fieldNumber, Int2BooleanMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Int2BooleanMap.Entry entry : value.int2BooleanEntrySet()) {
-                writeS32(entry.getIntKey());
-                writeBOOL(entry.getBooleanValue());
+                writeS32_Packed(entry.getIntKey());
+                writeBOOL_Packed(entry.getBooleanValue());
             }
         });
     }
@@ -1868,8 +1868,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeS32I8Map(int fieldNumber, Int2ByteMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Int2ByteMap.Entry entry : value.int2ByteEntrySet()) {
-                writeS32(entry.getIntKey());
-                writeI8(entry.getByteValue());
+                writeS32_Packed(entry.getIntKey());
+                writeI8_Packed(entry.getByteValue());
             }
         });
     }
@@ -1878,8 +1878,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeS32U8Map(int fieldNumber, Int2ByteMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Int2ByteMap.Entry entry : value.int2ByteEntrySet()) {
-                writeS32(entry.getIntKey());
-                writeU8(entry.getByteValue());
+                writeS32_Packed(entry.getIntKey());
+                writeU8_Packed(entry.getByteValue());
             }
         });
     }
@@ -1888,8 +1888,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeS32I16Map(int fieldNumber, Int2ShortMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Int2ShortMap.Entry entry : value.int2ShortEntrySet()) {
-                writeS32(entry.getIntKey());
-                writeI16(entry.getShortValue());
+                writeS32_Packed(entry.getIntKey());
+                writeI16_Packed(entry.getShortValue());
             }
         });
     }
@@ -1898,8 +1898,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeS32U16Map(int fieldNumber, Int2ShortMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Int2ShortMap.Entry entry : value.int2ShortEntrySet()) {
-                writeS32(entry.getIntKey());
-                writeU16(entry.getShortValue());
+                writeS32_Packed(entry.getIntKey());
+                writeU16_Packed(entry.getShortValue());
             }
         });
     }
@@ -1908,8 +1908,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeS32I32Map(int fieldNumber, Int2IntMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Int2IntMap.Entry entry : value.int2IntEntrySet()) {
-                writeS32(entry.getIntKey());
-                writeI32(entry.getIntValue());
+                writeS32_Packed(entry.getIntKey());
+                writeI32_Packed(entry.getIntValue());
             }
         });
     }
@@ -1918,8 +1918,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeS32U32Map(int fieldNumber, Int2IntMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Int2IntMap.Entry entry : value.int2IntEntrySet()) {
-                writeS32(entry.getIntKey());
-                writeU32(entry.getIntValue());
+                writeS32_Packed(entry.getIntKey());
+                writeU32_Packed(entry.getIntValue());
             }
         });
     }
@@ -1928,8 +1928,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeS32S32Map(int fieldNumber, Int2IntMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Int2IntMap.Entry entry : value.int2IntEntrySet()) {
-                writeS32(entry.getIntKey());
-                writeS32(entry.getIntValue());
+                writeS32_Packed(entry.getIntKey());
+                writeS32_Packed(entry.getIntValue());
             }
         });
     }
@@ -1938,8 +1938,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeS32F32Map(int fieldNumber, Int2IntMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Int2IntMap.Entry entry : value.int2IntEntrySet()) {
-                writeS32(entry.getIntKey());
-                writeF32(entry.getIntValue());
+                writeS32_Packed(entry.getIntKey());
+                writeF32_Packed(entry.getIntValue());
             }
         });
     }
@@ -1948,8 +1948,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeS32SF32Map(int fieldNumber, Int2IntMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Int2IntMap.Entry entry : value.int2IntEntrySet()) {
-                writeS32(entry.getIntKey());
-                writeSF32(entry.getIntValue());
+                writeS32_Packed(entry.getIntKey());
+                writeSF32_Packed(entry.getIntValue());
             }
         });
     }
@@ -1958,8 +1958,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeS32I64Map(int fieldNumber, Int2LongMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Int2LongMap.Entry entry : value.int2LongEntrySet()) {
-                writeS32(entry.getIntKey());
-                writeI64(entry.getLongValue());
+                writeS32_Packed(entry.getIntKey());
+                writeI64_Packed(entry.getLongValue());
             }
         });
     }
@@ -1968,8 +1968,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeS32U64Map(int fieldNumber, Int2LongMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Int2LongMap.Entry entry : value.int2LongEntrySet()) {
-                writeS32(entry.getIntKey());
-                writeU64(entry.getLongValue());
+                writeS32_Packed(entry.getIntKey());
+                writeU64_Packed(entry.getLongValue());
             }
         });
     }
@@ -1978,8 +1978,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeS32S64Map(int fieldNumber, Int2LongMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Int2LongMap.Entry entry : value.int2LongEntrySet()) {
-                writeS32(entry.getIntKey());
-                writeS64(entry.getLongValue());
+                writeS32_Packed(entry.getIntKey());
+                writeS64_Packed(entry.getLongValue());
             }
         });
     }
@@ -1988,8 +1988,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeS32F64Map(int fieldNumber, Int2LongMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Int2LongMap.Entry entry : value.int2LongEntrySet()) {
-                writeS32(entry.getIntKey());
-                writeF64(entry.getLongValue());
+                writeS32_Packed(entry.getIntKey());
+                writeF64_Packed(entry.getLongValue());
             }
         });
     }
@@ -1998,8 +1998,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeS32SF64Map(int fieldNumber, Int2LongMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Int2LongMap.Entry entry : value.int2LongEntrySet()) {
-                writeS32(entry.getIntKey());
-                writeSF64(entry.getLongValue());
+                writeS32_Packed(entry.getIntKey());
+                writeSF64_Packed(entry.getLongValue());
             }
         });
     }
@@ -2011,8 +2011,8 @@ public class ProtobjOutput extends WriteSession implements Output {
                 if (entry.getValue() == null) {
                     continue;
                 }
-                writeS32(entry.getIntKey());
-                writeSTRING(entry.getValue());
+                writeS32_Packed(entry.getIntKey());
+                writeSTRING_Packed(entry.getValue());
             }
         });
     }
@@ -2021,8 +2021,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeS32DOUBLEMap(int fieldNumber, Int2DoubleMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Int2DoubleMap.Entry entry : value.int2DoubleEntrySet()) {
-                writeS32(entry.getIntKey());
-                writeDOUBLE(entry.getDoubleValue());
+                writeS32_Packed(entry.getIntKey());
+                writeDOUBLE_Packed(entry.getDoubleValue());
             }
         });
     }
@@ -2031,8 +2031,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeS32FLOATMap(int fieldNumber, Int2FloatMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Int2FloatMap.Entry entry : value.int2FloatEntrySet()) {
-                writeS32(entry.getIntKey());
-                writeFLOAT(entry.getFloatValue());
+                writeS32_Packed(entry.getIntKey());
+                writeFLOAT_Packed(entry.getFloatValue());
             }
         });
     }
@@ -2041,8 +2041,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeF32BOOLMap(int fieldNumber, Int2BooleanMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Int2BooleanMap.Entry entry : value.int2BooleanEntrySet()) {
-                writeF32(entry.getIntKey());
-                writeBOOL(entry.getBooleanValue());
+                writeF32_Packed(entry.getIntKey());
+                writeBOOL_Packed(entry.getBooleanValue());
             }
         });
     }
@@ -2051,8 +2051,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeF32I8Map(int fieldNumber, Int2ByteMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Int2ByteMap.Entry entry : value.int2ByteEntrySet()) {
-                writeF32(entry.getIntKey());
-                writeI8(entry.getByteValue());
+                writeF32_Packed(entry.getIntKey());
+                writeI8_Packed(entry.getByteValue());
             }
         });
     }
@@ -2061,8 +2061,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeF32U8Map(int fieldNumber, Int2ByteMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Int2ByteMap.Entry entry : value.int2ByteEntrySet()) {
-                writeF32(entry.getIntKey());
-                writeU8(entry.getByteValue());
+                writeF32_Packed(entry.getIntKey());
+                writeU8_Packed(entry.getByteValue());
             }
         });
     }
@@ -2071,8 +2071,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeF32I16Map(int fieldNumber, Int2ShortMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Int2ShortMap.Entry entry : value.int2ShortEntrySet()) {
-                writeF32(entry.getIntKey());
-                writeI16(entry.getShortValue());
+                writeF32_Packed(entry.getIntKey());
+                writeI16_Packed(entry.getShortValue());
             }
         });
     }
@@ -2081,8 +2081,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeF32U16Map(int fieldNumber, Int2ShortMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Int2ShortMap.Entry entry : value.int2ShortEntrySet()) {
-                writeF32(entry.getIntKey());
-                writeU16(entry.getShortValue());
+                writeF32_Packed(entry.getIntKey());
+                writeU16_Packed(entry.getShortValue());
             }
         });
     }
@@ -2091,8 +2091,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeF32I32Map(int fieldNumber, Int2IntMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Int2IntMap.Entry entry : value.int2IntEntrySet()) {
-                writeF32(entry.getIntKey());
-                writeI32(entry.getIntValue());
+                writeF32_Packed(entry.getIntKey());
+                writeI32_Packed(entry.getIntValue());
             }
         });
     }
@@ -2101,8 +2101,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeF32U32Map(int fieldNumber, Int2IntMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Int2IntMap.Entry entry : value.int2IntEntrySet()) {
-                writeF32(entry.getIntKey());
-                writeU32(entry.getIntValue());
+                writeF32_Packed(entry.getIntKey());
+                writeU32_Packed(entry.getIntValue());
             }
         });
     }
@@ -2111,8 +2111,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeF32S32Map(int fieldNumber, Int2IntMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Int2IntMap.Entry entry : value.int2IntEntrySet()) {
-                writeF32(entry.getIntKey());
-                writeS32(entry.getIntValue());
+                writeF32_Packed(entry.getIntKey());
+                writeS32_Packed(entry.getIntValue());
             }
         });
     }
@@ -2121,8 +2121,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeF32F32Map(int fieldNumber, Int2IntMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Int2IntMap.Entry entry : value.int2IntEntrySet()) {
-                writeF32(entry.getIntKey());
-                writeF32(entry.getIntValue());
+                writeF32_Packed(entry.getIntKey());
+                writeF32_Packed(entry.getIntValue());
             }
         });
     }
@@ -2131,8 +2131,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeF32SF32Map(int fieldNumber, Int2IntMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Int2IntMap.Entry entry : value.int2IntEntrySet()) {
-                writeF32(entry.getIntKey());
-                writeSF32(entry.getIntValue());
+                writeF32_Packed(entry.getIntKey());
+                writeSF32_Packed(entry.getIntValue());
             }
         });
     }
@@ -2141,8 +2141,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeF32I64Map(int fieldNumber, Int2LongMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Int2LongMap.Entry entry : value.int2LongEntrySet()) {
-                writeF32(entry.getIntKey());
-                writeI64(entry.getLongValue());
+                writeF32_Packed(entry.getIntKey());
+                writeI64_Packed(entry.getLongValue());
             }
         });
     }
@@ -2151,8 +2151,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeF32U64Map(int fieldNumber, Int2LongMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Int2LongMap.Entry entry : value.int2LongEntrySet()) {
-                writeF32(entry.getIntKey());
-                writeU64(entry.getLongValue());
+                writeF32_Packed(entry.getIntKey());
+                writeU64_Packed(entry.getLongValue());
             }
         });
     }
@@ -2161,8 +2161,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeF32S64Map(int fieldNumber, Int2LongMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Int2LongMap.Entry entry : value.int2LongEntrySet()) {
-                writeF32(entry.getIntKey());
-                writeS64(entry.getLongValue());
+                writeF32_Packed(entry.getIntKey());
+                writeS64_Packed(entry.getLongValue());
             }
         });
     }
@@ -2171,8 +2171,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeF32F64Map(int fieldNumber, Int2LongMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Int2LongMap.Entry entry : value.int2LongEntrySet()) {
-                writeF32(entry.getIntKey());
-                writeF64(entry.getLongValue());
+                writeF32_Packed(entry.getIntKey());
+                writeF64_Packed(entry.getLongValue());
             }
         });
     }
@@ -2181,8 +2181,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeF32SF64Map(int fieldNumber, Int2LongMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Int2LongMap.Entry entry : value.int2LongEntrySet()) {
-                writeF32(entry.getIntKey());
-                writeSF64(entry.getLongValue());
+                writeF32_Packed(entry.getIntKey());
+                writeSF64_Packed(entry.getLongValue());
             }
         });
     }
@@ -2194,8 +2194,8 @@ public class ProtobjOutput extends WriteSession implements Output {
                 if (entry.getValue() == null) {
                     continue;
                 }
-                writeF32(entry.getIntKey());
-                writeSTRING(entry.getValue());
+                writeF32_Packed(entry.getIntKey());
+                writeSTRING_Packed(entry.getValue());
             }
         });
     }
@@ -2204,8 +2204,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeF32DOUBLEMap(int fieldNumber, Int2DoubleMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Int2DoubleMap.Entry entry : value.int2DoubleEntrySet()) {
-                writeF32(entry.getIntKey());
-                writeDOUBLE(entry.getDoubleValue());
+                writeF32_Packed(entry.getIntKey());
+                writeDOUBLE_Packed(entry.getDoubleValue());
             }
         });
     }
@@ -2214,8 +2214,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeF32FLOATMap(int fieldNumber, Int2FloatMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Int2FloatMap.Entry entry : value.int2FloatEntrySet()) {
-                writeF32(entry.getIntKey());
-                writeFLOAT(entry.getFloatValue());
+                writeF32_Packed(entry.getIntKey());
+                writeFLOAT_Packed(entry.getFloatValue());
             }
         });
     }
@@ -2224,8 +2224,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeSF32BOOLMap(int fieldNumber, Int2BooleanMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Int2BooleanMap.Entry entry : value.int2BooleanEntrySet()) {
-                writeSF32(entry.getIntKey());
-                writeBOOL(entry.getBooleanValue());
+                writeSF32_Packed(entry.getIntKey());
+                writeBOOL_Packed(entry.getBooleanValue());
             }
         });
     }
@@ -2234,8 +2234,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeSF32I8Map(int fieldNumber, Int2ByteMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Int2ByteMap.Entry entry : value.int2ByteEntrySet()) {
-                writeSF32(entry.getIntKey());
-                writeI8(entry.getByteValue());
+                writeSF32_Packed(entry.getIntKey());
+                writeI8_Packed(entry.getByteValue());
             }
         });
     }
@@ -2244,8 +2244,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeSF32U8Map(int fieldNumber, Int2ByteMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Int2ByteMap.Entry entry : value.int2ByteEntrySet()) {
-                writeSF32(entry.getIntKey());
-                writeU8(entry.getByteValue());
+                writeSF32_Packed(entry.getIntKey());
+                writeU8_Packed(entry.getByteValue());
             }
         });
     }
@@ -2254,8 +2254,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeSF32I16Map(int fieldNumber, Int2ShortMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Int2ShortMap.Entry entry : value.int2ShortEntrySet()) {
-                writeSF32(entry.getIntKey());
-                writeI16(entry.getShortValue());
+                writeSF32_Packed(entry.getIntKey());
+                writeI16_Packed(entry.getShortValue());
             }
         });
     }
@@ -2264,8 +2264,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeSF32U16Map(int fieldNumber, Int2ShortMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Int2ShortMap.Entry entry : value.int2ShortEntrySet()) {
-                writeSF32(entry.getIntKey());
-                writeU16(entry.getShortValue());
+                writeSF32_Packed(entry.getIntKey());
+                writeU16_Packed(entry.getShortValue());
             }
         });
     }
@@ -2274,8 +2274,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeSF32I32Map(int fieldNumber, Int2IntMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Int2IntMap.Entry entry : value.int2IntEntrySet()) {
-                writeSF32(entry.getIntKey());
-                writeI32(entry.getIntValue());
+                writeSF32_Packed(entry.getIntKey());
+                writeI32_Packed(entry.getIntValue());
             }
         });
     }
@@ -2284,8 +2284,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeSF32U32Map(int fieldNumber, Int2IntMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Int2IntMap.Entry entry : value.int2IntEntrySet()) {
-                writeSF32(entry.getIntKey());
-                writeU32(entry.getIntValue());
+                writeSF32_Packed(entry.getIntKey());
+                writeU32_Packed(entry.getIntValue());
             }
         });
     }
@@ -2294,8 +2294,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeSF32S32Map(int fieldNumber, Int2IntMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Int2IntMap.Entry entry : value.int2IntEntrySet()) {
-                writeSF32(entry.getIntKey());
-                writeS32(entry.getIntValue());
+                writeSF32_Packed(entry.getIntKey());
+                writeS32_Packed(entry.getIntValue());
             }
         });
     }
@@ -2304,8 +2304,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeSF32F32Map(int fieldNumber, Int2IntMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Int2IntMap.Entry entry : value.int2IntEntrySet()) {
-                writeSF32(entry.getIntKey());
-                writeF32(entry.getIntValue());
+                writeSF32_Packed(entry.getIntKey());
+                writeF32_Packed(entry.getIntValue());
             }
         });
     }
@@ -2314,8 +2314,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeSF32SF32Map(int fieldNumber, Int2IntMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Int2IntMap.Entry entry : value.int2IntEntrySet()) {
-                writeSF32(entry.getIntKey());
-                writeSF32(entry.getIntValue());
+                writeSF32_Packed(entry.getIntKey());
+                writeSF32_Packed(entry.getIntValue());
             }
         });
     }
@@ -2324,8 +2324,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeSF32I64Map(int fieldNumber, Int2LongMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Int2LongMap.Entry entry : value.int2LongEntrySet()) {
-                writeSF32(entry.getIntKey());
-                writeI64(entry.getLongValue());
+                writeSF32_Packed(entry.getIntKey());
+                writeI64_Packed(entry.getLongValue());
             }
         });
     }
@@ -2334,8 +2334,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeSF32U64Map(int fieldNumber, Int2LongMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Int2LongMap.Entry entry : value.int2LongEntrySet()) {
-                writeSF32(entry.getIntKey());
-                writeU64(entry.getLongValue());
+                writeSF32_Packed(entry.getIntKey());
+                writeU64_Packed(entry.getLongValue());
             }
         });
     }
@@ -2344,8 +2344,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeSF32S64Map(int fieldNumber, Int2LongMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Int2LongMap.Entry entry : value.int2LongEntrySet()) {
-                writeSF32(entry.getIntKey());
-                writeS64(entry.getLongValue());
+                writeSF32_Packed(entry.getIntKey());
+                writeS64_Packed(entry.getLongValue());
             }
         });
     }
@@ -2354,8 +2354,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeSF32F64Map(int fieldNumber, Int2LongMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Int2LongMap.Entry entry : value.int2LongEntrySet()) {
-                writeSF32(entry.getIntKey());
-                writeF64(entry.getLongValue());
+                writeSF32_Packed(entry.getIntKey());
+                writeF64_Packed(entry.getLongValue());
             }
         });
     }
@@ -2364,8 +2364,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeSF32SF64Map(int fieldNumber, Int2LongMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Int2LongMap.Entry entry : value.int2LongEntrySet()) {
-                writeSF32(entry.getIntKey());
-                writeSF64(entry.getLongValue());
+                writeSF32_Packed(entry.getIntKey());
+                writeSF64_Packed(entry.getLongValue());
             }
         });
     }
@@ -2377,8 +2377,8 @@ public class ProtobjOutput extends WriteSession implements Output {
                 if (entry.getValue() == null) {
                     continue;
                 }
-                writeSF32(entry.getIntKey());
-                writeSTRING(entry.getValue());
+                writeSF32_Packed(entry.getIntKey());
+                writeSTRING_Packed(entry.getValue());
             }
         });
     }
@@ -2387,8 +2387,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeSF32DOUBLEMap(int fieldNumber, Int2DoubleMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Int2DoubleMap.Entry entry : value.int2DoubleEntrySet()) {
-                writeSF32(entry.getIntKey());
-                writeDOUBLE(entry.getDoubleValue());
+                writeSF32_Packed(entry.getIntKey());
+                writeDOUBLE_Packed(entry.getDoubleValue());
             }
         });
     }
@@ -2397,8 +2397,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeSF32FLOATMap(int fieldNumber, Int2FloatMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Int2FloatMap.Entry entry : value.int2FloatEntrySet()) {
-                writeSF32(entry.getIntKey());
-                writeFLOAT(entry.getFloatValue());
+                writeSF32_Packed(entry.getIntKey());
+                writeFLOAT_Packed(entry.getFloatValue());
             }
         });
     }
@@ -2407,8 +2407,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeI64BOOLMap(int fieldNumber, Long2BooleanMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Long2BooleanMap.Entry entry : value.long2BooleanEntrySet()) {
-                writeI64(entry.getLongKey());
-                writeBOOL(entry.getBooleanValue());
+                writeI64_Packed(entry.getLongKey());
+                writeBOOL_Packed(entry.getBooleanValue());
             }
         });
     }
@@ -2417,8 +2417,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeI64I8Map(int fieldNumber, Long2ByteMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Long2ByteMap.Entry entry : value.long2ByteEntrySet()) {
-                writeI64(entry.getLongKey());
-                writeI8(entry.getByteValue());
+                writeI64_Packed(entry.getLongKey());
+                writeI8_Packed(entry.getByteValue());
             }
         });
     }
@@ -2427,8 +2427,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeI64U8Map(int fieldNumber, Long2ByteMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Long2ByteMap.Entry entry : value.long2ByteEntrySet()) {
-                writeI64(entry.getLongKey());
-                writeU8(entry.getByteValue());
+                writeI64_Packed(entry.getLongKey());
+                writeU8_Packed(entry.getByteValue());
             }
         });
     }
@@ -2437,8 +2437,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeI64I16Map(int fieldNumber, Long2ShortMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Long2ShortMap.Entry entry : value.long2ShortEntrySet()) {
-                writeI64(entry.getLongKey());
-                writeI16(entry.getShortValue());
+                writeI64_Packed(entry.getLongKey());
+                writeI16_Packed(entry.getShortValue());
             }
         });
     }
@@ -2447,8 +2447,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeI64U16Map(int fieldNumber, Long2ShortMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Long2ShortMap.Entry entry : value.long2ShortEntrySet()) {
-                writeI64(entry.getLongKey());
-                writeU16(entry.getShortValue());
+                writeI64_Packed(entry.getLongKey());
+                writeU16_Packed(entry.getShortValue());
             }
         });
     }
@@ -2457,8 +2457,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeI64I32Map(int fieldNumber, Long2IntMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Long2IntMap.Entry entry : value.long2IntEntrySet()) {
-                writeI64(entry.getLongKey());
-                writeI32(entry.getIntValue());
+                writeI64_Packed(entry.getLongKey());
+                writeI32_Packed(entry.getIntValue());
             }
         });
     }
@@ -2467,8 +2467,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeI64U32Map(int fieldNumber, Long2IntMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Long2IntMap.Entry entry : value.long2IntEntrySet()) {
-                writeI64(entry.getLongKey());
-                writeU32(entry.getIntValue());
+                writeI64_Packed(entry.getLongKey());
+                writeU32_Packed(entry.getIntValue());
             }
         });
     }
@@ -2477,8 +2477,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeI64S32Map(int fieldNumber, Long2IntMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Long2IntMap.Entry entry : value.long2IntEntrySet()) {
-                writeI64(entry.getLongKey());
-                writeS32(entry.getIntValue());
+                writeI64_Packed(entry.getLongKey());
+                writeS32_Packed(entry.getIntValue());
             }
         });
     }
@@ -2487,8 +2487,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeI64F32Map(int fieldNumber, Long2IntMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Long2IntMap.Entry entry : value.long2IntEntrySet()) {
-                writeI64(entry.getLongKey());
-                writeF32(entry.getIntValue());
+                writeI64_Packed(entry.getLongKey());
+                writeF32_Packed(entry.getIntValue());
             }
         });
     }
@@ -2497,8 +2497,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeI64SF32Map(int fieldNumber, Long2IntMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Long2IntMap.Entry entry : value.long2IntEntrySet()) {
-                writeI64(entry.getLongKey());
-                writeSF32(entry.getIntValue());
+                writeI64_Packed(entry.getLongKey());
+                writeSF32_Packed(entry.getIntValue());
             }
         });
     }
@@ -2507,8 +2507,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeI64I64Map(int fieldNumber, Long2LongMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Long2LongMap.Entry entry : value.long2LongEntrySet()) {
-                writeI64(entry.getLongKey());
-                writeI64(entry.getLongValue());
+                writeI64_Packed(entry.getLongKey());
+                writeI64_Packed(entry.getLongValue());
             }
         });
     }
@@ -2517,8 +2517,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeI64U64Map(int fieldNumber, Long2LongMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Long2LongMap.Entry entry : value.long2LongEntrySet()) {
-                writeI64(entry.getLongKey());
-                writeU64(entry.getLongValue());
+                writeI64_Packed(entry.getLongKey());
+                writeU64_Packed(entry.getLongValue());
             }
         });
     }
@@ -2527,8 +2527,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeI64S64Map(int fieldNumber, Long2LongMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Long2LongMap.Entry entry : value.long2LongEntrySet()) {
-                writeI64(entry.getLongKey());
-                writeS64(entry.getLongValue());
+                writeI64_Packed(entry.getLongKey());
+                writeS64_Packed(entry.getLongValue());
             }
         });
     }
@@ -2537,8 +2537,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeI64F64Map(int fieldNumber, Long2LongMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Long2LongMap.Entry entry : value.long2LongEntrySet()) {
-                writeI64(entry.getLongKey());
-                writeF64(entry.getLongValue());
+                writeI64_Packed(entry.getLongKey());
+                writeF64_Packed(entry.getLongValue());
             }
         });
     }
@@ -2547,8 +2547,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeI64SF64Map(int fieldNumber, Long2LongMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Long2LongMap.Entry entry : value.long2LongEntrySet()) {
-                writeI64(entry.getLongKey());
-                writeSF64(entry.getLongValue());
+                writeI64_Packed(entry.getLongKey());
+                writeSF64_Packed(entry.getLongValue());
             }
         });
     }
@@ -2560,8 +2560,8 @@ public class ProtobjOutput extends WriteSession implements Output {
                 if (entry.getValue() == null) {
                     continue;
                 }
-                writeI64(entry.getLongKey());
-                writeSTRING(entry.getValue());
+                writeI64_Packed(entry.getLongKey());
+                writeSTRING_Packed(entry.getValue());
             }
         });
     }
@@ -2570,8 +2570,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeI64DOUBLEMap(int fieldNumber, Long2DoubleMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Long2DoubleMap.Entry entry : value.long2DoubleEntrySet()) {
-                writeI64(entry.getLongKey());
-                writeDOUBLE(entry.getDoubleValue());
+                writeI64_Packed(entry.getLongKey());
+                writeDOUBLE_Packed(entry.getDoubleValue());
             }
         });
     }
@@ -2580,8 +2580,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeI64FLOATMap(int fieldNumber, Long2FloatMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Long2FloatMap.Entry entry : value.long2FloatEntrySet()) {
-                writeI64(entry.getLongKey());
-                writeFLOAT(entry.getFloatValue());
+                writeI64_Packed(entry.getLongKey());
+                writeFLOAT_Packed(entry.getFloatValue());
             }
         });
     }
@@ -2590,8 +2590,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeU64BOOLMap(int fieldNumber, Long2BooleanMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Long2BooleanMap.Entry entry : value.long2BooleanEntrySet()) {
-                writeU64(entry.getLongKey());
-                writeBOOL(entry.getBooleanValue());
+                writeU64_Packed(entry.getLongKey());
+                writeBOOL_Packed(entry.getBooleanValue());
             }
         });
     }
@@ -2600,8 +2600,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeU64I8Map(int fieldNumber, Long2ByteMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Long2ByteMap.Entry entry : value.long2ByteEntrySet()) {
-                writeU64(entry.getLongKey());
-                writeI8(entry.getByteValue());
+                writeU64_Packed(entry.getLongKey());
+                writeI8_Packed(entry.getByteValue());
             }
         });
     }
@@ -2610,8 +2610,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeU64U8Map(int fieldNumber, Long2ByteMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Long2ByteMap.Entry entry : value.long2ByteEntrySet()) {
-                writeU64(entry.getLongKey());
-                writeU8(entry.getByteValue());
+                writeU64_Packed(entry.getLongKey());
+                writeU8_Packed(entry.getByteValue());
             }
         });
     }
@@ -2620,8 +2620,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeU64I16Map(int fieldNumber, Long2ShortMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Long2ShortMap.Entry entry : value.long2ShortEntrySet()) {
-                writeU64(entry.getLongKey());
-                writeI16(entry.getShortValue());
+                writeU64_Packed(entry.getLongKey());
+                writeI16_Packed(entry.getShortValue());
             }
         });
     }
@@ -2630,8 +2630,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeU64U16Map(int fieldNumber, Long2ShortMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Long2ShortMap.Entry entry : value.long2ShortEntrySet()) {
-                writeU64(entry.getLongKey());
-                writeU16(entry.getShortValue());
+                writeU64_Packed(entry.getLongKey());
+                writeU16_Packed(entry.getShortValue());
             }
         });
     }
@@ -2640,8 +2640,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeU64I32Map(int fieldNumber, Long2IntMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Long2IntMap.Entry entry : value.long2IntEntrySet()) {
-                writeU64(entry.getLongKey());
-                writeI32(entry.getIntValue());
+                writeU64_Packed(entry.getLongKey());
+                writeI32_Packed(entry.getIntValue());
             }
         });
     }
@@ -2650,8 +2650,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeU64U32Map(int fieldNumber, Long2IntMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Long2IntMap.Entry entry : value.long2IntEntrySet()) {
-                writeU64(entry.getLongKey());
-                writeU32(entry.getIntValue());
+                writeU64_Packed(entry.getLongKey());
+                writeU32_Packed(entry.getIntValue());
             }
         });
     }
@@ -2660,8 +2660,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeU64S32Map(int fieldNumber, Long2IntMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Long2IntMap.Entry entry : value.long2IntEntrySet()) {
-                writeU64(entry.getLongKey());
-                writeS32(entry.getIntValue());
+                writeU64_Packed(entry.getLongKey());
+                writeS32_Packed(entry.getIntValue());
             }
         });
     }
@@ -2670,8 +2670,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeU64F32Map(int fieldNumber, Long2IntMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Long2IntMap.Entry entry : value.long2IntEntrySet()) {
-                writeU64(entry.getLongKey());
-                writeF32(entry.getIntValue());
+                writeU64_Packed(entry.getLongKey());
+                writeF32_Packed(entry.getIntValue());
             }
         });
     }
@@ -2680,8 +2680,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeU64SF32Map(int fieldNumber, Long2IntMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Long2IntMap.Entry entry : value.long2IntEntrySet()) {
-                writeU64(entry.getLongKey());
-                writeSF32(entry.getIntValue());
+                writeU64_Packed(entry.getLongKey());
+                writeSF32_Packed(entry.getIntValue());
             }
         });
     }
@@ -2690,8 +2690,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeU64I64Map(int fieldNumber, Long2LongMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Long2LongMap.Entry entry : value.long2LongEntrySet()) {
-                writeU64(entry.getLongKey());
-                writeI64(entry.getLongValue());
+                writeU64_Packed(entry.getLongKey());
+                writeI64_Packed(entry.getLongValue());
             }
         });
     }
@@ -2700,8 +2700,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeU64U64Map(int fieldNumber, Long2LongMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Long2LongMap.Entry entry : value.long2LongEntrySet()) {
-                writeU64(entry.getLongKey());
-                writeU64(entry.getLongValue());
+                writeU64_Packed(entry.getLongKey());
+                writeU64_Packed(entry.getLongValue());
             }
         });
     }
@@ -2710,8 +2710,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeU64S64Map(int fieldNumber, Long2LongMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Long2LongMap.Entry entry : value.long2LongEntrySet()) {
-                writeU64(entry.getLongKey());
-                writeS64(entry.getLongValue());
+                writeU64_Packed(entry.getLongKey());
+                writeS64_Packed(entry.getLongValue());
             }
         });
     }
@@ -2720,8 +2720,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeU64F64Map(int fieldNumber, Long2LongMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Long2LongMap.Entry entry : value.long2LongEntrySet()) {
-                writeU64(entry.getLongKey());
-                writeF64(entry.getLongValue());
+                writeU64_Packed(entry.getLongKey());
+                writeF64_Packed(entry.getLongValue());
             }
         });
     }
@@ -2730,8 +2730,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeU64SF64Map(int fieldNumber, Long2LongMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Long2LongMap.Entry entry : value.long2LongEntrySet()) {
-                writeU64(entry.getLongKey());
-                writeSF64(entry.getLongValue());
+                writeU64_Packed(entry.getLongKey());
+                writeSF64_Packed(entry.getLongValue());
             }
         });
     }
@@ -2743,8 +2743,8 @@ public class ProtobjOutput extends WriteSession implements Output {
                 if (entry.getValue() == null) {
                     continue;
                 }
-                writeU64(entry.getLongKey());
-                writeSTRING(entry.getValue());
+                writeU64_Packed(entry.getLongKey());
+                writeSTRING_Packed(entry.getValue());
             }
         });
     }
@@ -2753,8 +2753,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeU64DOUBLEMap(int fieldNumber, Long2DoubleMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Long2DoubleMap.Entry entry : value.long2DoubleEntrySet()) {
-                writeU64(entry.getLongKey());
-                writeDOUBLE(entry.getDoubleValue());
+                writeU64_Packed(entry.getLongKey());
+                writeDOUBLE_Packed(entry.getDoubleValue());
             }
         });
     }
@@ -2763,8 +2763,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeU64FLOATMap(int fieldNumber, Long2FloatMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Long2FloatMap.Entry entry : value.long2FloatEntrySet()) {
-                writeU64(entry.getLongKey());
-                writeFLOAT(entry.getFloatValue());
+                writeU64_Packed(entry.getLongKey());
+                writeFLOAT_Packed(entry.getFloatValue());
             }
         });
     }
@@ -2773,8 +2773,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeS64BOOLMap(int fieldNumber, Long2BooleanMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Long2BooleanMap.Entry entry : value.long2BooleanEntrySet()) {
-                writeS64(entry.getLongKey());
-                writeBOOL(entry.getBooleanValue());
+                writeS64_Packed(entry.getLongKey());
+                writeBOOL_Packed(entry.getBooleanValue());
             }
         });
     }
@@ -2783,8 +2783,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeS64I8Map(int fieldNumber, Long2ByteMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Long2ByteMap.Entry entry : value.long2ByteEntrySet()) {
-                writeS64(entry.getLongKey());
-                writeI8(entry.getByteValue());
+                writeS64_Packed(entry.getLongKey());
+                writeI8_Packed(entry.getByteValue());
             }
         });
     }
@@ -2793,8 +2793,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeS64U8Map(int fieldNumber, Long2ByteMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Long2ByteMap.Entry entry : value.long2ByteEntrySet()) {
-                writeS64(entry.getLongKey());
-                writeU8(entry.getByteValue());
+                writeS64_Packed(entry.getLongKey());
+                writeU8_Packed(entry.getByteValue());
             }
         });
     }
@@ -2803,8 +2803,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeS64I16Map(int fieldNumber, Long2ShortMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Long2ShortMap.Entry entry : value.long2ShortEntrySet()) {
-                writeS64(entry.getLongKey());
-                writeI16(entry.getShortValue());
+                writeS64_Packed(entry.getLongKey());
+                writeI16_Packed(entry.getShortValue());
             }
         });
     }
@@ -2813,8 +2813,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeS64U16Map(int fieldNumber, Long2ShortMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Long2ShortMap.Entry entry : value.long2ShortEntrySet()) {
-                writeS64(entry.getLongKey());
-                writeU16(entry.getShortValue());
+                writeS64_Packed(entry.getLongKey());
+                writeU16_Packed(entry.getShortValue());
             }
         });
     }
@@ -2823,8 +2823,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeS64I32Map(int fieldNumber, Long2IntMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Long2IntMap.Entry entry : value.long2IntEntrySet()) {
-                writeS64(entry.getLongKey());
-                writeI32(entry.getIntValue());
+                writeS64_Packed(entry.getLongKey());
+                writeI32_Packed(entry.getIntValue());
             }
         });
     }
@@ -2833,8 +2833,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeS64U32Map(int fieldNumber, Long2IntMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Long2IntMap.Entry entry : value.long2IntEntrySet()) {
-                writeS64(entry.getLongKey());
-                writeU32(entry.getIntValue());
+                writeS64_Packed(entry.getLongKey());
+                writeU32_Packed(entry.getIntValue());
             }
         });
     }
@@ -2843,8 +2843,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeS64S32Map(int fieldNumber, Long2IntMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Long2IntMap.Entry entry : value.long2IntEntrySet()) {
-                writeS64(entry.getLongKey());
-                writeS32(entry.getIntValue());
+                writeS64_Packed(entry.getLongKey());
+                writeS32_Packed(entry.getIntValue());
             }
         });
     }
@@ -2853,8 +2853,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeS64F32Map(int fieldNumber, Long2IntMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Long2IntMap.Entry entry : value.long2IntEntrySet()) {
-                writeS64(entry.getLongKey());
-                writeF32(entry.getIntValue());
+                writeS64_Packed(entry.getLongKey());
+                writeF32_Packed(entry.getIntValue());
             }
         });
     }
@@ -2863,8 +2863,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeS64SF32Map(int fieldNumber, Long2IntMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Long2IntMap.Entry entry : value.long2IntEntrySet()) {
-                writeS64(entry.getLongKey());
-                writeSF32(entry.getIntValue());
+                writeS64_Packed(entry.getLongKey());
+                writeSF32_Packed(entry.getIntValue());
             }
         });
     }
@@ -2873,8 +2873,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeS64I64Map(int fieldNumber, Long2LongMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Long2LongMap.Entry entry : value.long2LongEntrySet()) {
-                writeS64(entry.getLongKey());
-                writeI64(entry.getLongValue());
+                writeS64_Packed(entry.getLongKey());
+                writeI64_Packed(entry.getLongValue());
             }
         });
     }
@@ -2883,8 +2883,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeS64U64Map(int fieldNumber, Long2LongMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Long2LongMap.Entry entry : value.long2LongEntrySet()) {
-                writeS64(entry.getLongKey());
-                writeU64(entry.getLongValue());
+                writeS64_Packed(entry.getLongKey());
+                writeU64_Packed(entry.getLongValue());
             }
         });
     }
@@ -2893,8 +2893,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeS64S64Map(int fieldNumber, Long2LongMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Long2LongMap.Entry entry : value.long2LongEntrySet()) {
-                writeS64(entry.getLongKey());
-                writeS64(entry.getLongValue());
+                writeS64_Packed(entry.getLongKey());
+                writeS64_Packed(entry.getLongValue());
             }
         });
     }
@@ -2903,8 +2903,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeS64F64Map(int fieldNumber, Long2LongMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Long2LongMap.Entry entry : value.long2LongEntrySet()) {
-                writeS64(entry.getLongKey());
-                writeF64(entry.getLongValue());
+                writeS64_Packed(entry.getLongKey());
+                writeF64_Packed(entry.getLongValue());
             }
         });
     }
@@ -2913,8 +2913,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeS64SF64Map(int fieldNumber, Long2LongMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Long2LongMap.Entry entry : value.long2LongEntrySet()) {
-                writeS64(entry.getLongKey());
-                writeSF64(entry.getLongValue());
+                writeS64_Packed(entry.getLongKey());
+                writeSF64_Packed(entry.getLongValue());
             }
         });
     }
@@ -2926,8 +2926,8 @@ public class ProtobjOutput extends WriteSession implements Output {
                 if (entry.getValue() == null) {
                     continue;
                 }
-                writeS64(entry.getLongKey());
-                writeSTRING(entry.getValue());
+                writeS64_Packed(entry.getLongKey());
+                writeSTRING_Packed(entry.getValue());
             }
         });
     }
@@ -2936,8 +2936,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeS64DOUBLEMap(int fieldNumber, Long2DoubleMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Long2DoubleMap.Entry entry : value.long2DoubleEntrySet()) {
-                writeS64(entry.getLongKey());
-                writeDOUBLE(entry.getDoubleValue());
+                writeS64_Packed(entry.getLongKey());
+                writeDOUBLE_Packed(entry.getDoubleValue());
             }
         });
     }
@@ -2946,8 +2946,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeS64FLOATMap(int fieldNumber, Long2FloatMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Long2FloatMap.Entry entry : value.long2FloatEntrySet()) {
-                writeS64(entry.getLongKey());
-                writeFLOAT(entry.getFloatValue());
+                writeS64_Packed(entry.getLongKey());
+                writeFLOAT_Packed(entry.getFloatValue());
             }
         });
     }
@@ -2956,8 +2956,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeF64BOOLMap(int fieldNumber, Long2BooleanMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Long2BooleanMap.Entry entry : value.long2BooleanEntrySet()) {
-                writeF64(entry.getLongKey());
-                writeBOOL(entry.getBooleanValue());
+                writeF64_Packed(entry.getLongKey());
+                writeBOOL_Packed(entry.getBooleanValue());
             }
         });
     }
@@ -2966,8 +2966,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeF64I8Map(int fieldNumber, Long2ByteMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Long2ByteMap.Entry entry : value.long2ByteEntrySet()) {
-                writeF64(entry.getLongKey());
-                writeI8(entry.getByteValue());
+                writeF64_Packed(entry.getLongKey());
+                writeI8_Packed(entry.getByteValue());
             }
         });
     }
@@ -2976,8 +2976,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeF64U8Map(int fieldNumber, Long2ByteMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Long2ByteMap.Entry entry : value.long2ByteEntrySet()) {
-                writeF64(entry.getLongKey());
-                writeU8(entry.getByteValue());
+                writeF64_Packed(entry.getLongKey());
+                writeU8_Packed(entry.getByteValue());
             }
         });
     }
@@ -2986,8 +2986,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeF64I16Map(int fieldNumber, Long2ShortMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Long2ShortMap.Entry entry : value.long2ShortEntrySet()) {
-                writeF64(entry.getLongKey());
-                writeI16(entry.getShortValue());
+                writeF64_Packed(entry.getLongKey());
+                writeI16_Packed(entry.getShortValue());
             }
         });
     }
@@ -2996,8 +2996,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeF64U16Map(int fieldNumber, Long2ShortMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Long2ShortMap.Entry entry : value.long2ShortEntrySet()) {
-                writeF64(entry.getLongKey());
-                writeU16(entry.getShortValue());
+                writeF64_Packed(entry.getLongKey());
+                writeU16_Packed(entry.getShortValue());
             }
         });
     }
@@ -3006,8 +3006,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeF64I32Map(int fieldNumber, Long2IntMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Long2IntMap.Entry entry : value.long2IntEntrySet()) {
-                writeF64(entry.getLongKey());
-                writeI32(entry.getIntValue());
+                writeF64_Packed(entry.getLongKey());
+                writeI32_Packed(entry.getIntValue());
             }
         });
     }
@@ -3016,8 +3016,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeF64U32Map(int fieldNumber, Long2IntMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Long2IntMap.Entry entry : value.long2IntEntrySet()) {
-                writeF64(entry.getLongKey());
-                writeU32(entry.getIntValue());
+                writeF64_Packed(entry.getLongKey());
+                writeU32_Packed(entry.getIntValue());
             }
         });
     }
@@ -3026,8 +3026,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeF64S32Map(int fieldNumber, Long2IntMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Long2IntMap.Entry entry : value.long2IntEntrySet()) {
-                writeF64(entry.getLongKey());
-                writeS32(entry.getIntValue());
+                writeF64_Packed(entry.getLongKey());
+                writeS32_Packed(entry.getIntValue());
             }
         });
     }
@@ -3036,8 +3036,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeF64F32Map(int fieldNumber, Long2IntMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Long2IntMap.Entry entry : value.long2IntEntrySet()) {
-                writeF64(entry.getLongKey());
-                writeF32(entry.getIntValue());
+                writeF64_Packed(entry.getLongKey());
+                writeF32_Packed(entry.getIntValue());
             }
         });
     }
@@ -3046,8 +3046,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeF64SF32Map(int fieldNumber, Long2IntMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Long2IntMap.Entry entry : value.long2IntEntrySet()) {
-                writeF64(entry.getLongKey());
-                writeSF32(entry.getIntValue());
+                writeF64_Packed(entry.getLongKey());
+                writeSF32_Packed(entry.getIntValue());
             }
         });
     }
@@ -3056,8 +3056,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeF64I64Map(int fieldNumber, Long2LongMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Long2LongMap.Entry entry : value.long2LongEntrySet()) {
-                writeF64(entry.getLongKey());
-                writeI64(entry.getLongValue());
+                writeF64_Packed(entry.getLongKey());
+                writeI64_Packed(entry.getLongValue());
             }
         });
     }
@@ -3066,8 +3066,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeF64U64Map(int fieldNumber, Long2LongMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Long2LongMap.Entry entry : value.long2LongEntrySet()) {
-                writeF64(entry.getLongKey());
-                writeU64(entry.getLongValue());
+                writeF64_Packed(entry.getLongKey());
+                writeU64_Packed(entry.getLongValue());
             }
         });
     }
@@ -3076,8 +3076,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeF64S64Map(int fieldNumber, Long2LongMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Long2LongMap.Entry entry : value.long2LongEntrySet()) {
-                writeF64(entry.getLongKey());
-                writeS64(entry.getLongValue());
+                writeF64_Packed(entry.getLongKey());
+                writeS64_Packed(entry.getLongValue());
             }
         });
     }
@@ -3086,8 +3086,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeF64F64Map(int fieldNumber, Long2LongMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Long2LongMap.Entry entry : value.long2LongEntrySet()) {
-                writeF64(entry.getLongKey());
-                writeF64(entry.getLongValue());
+                writeF64_Packed(entry.getLongKey());
+                writeF64_Packed(entry.getLongValue());
             }
         });
     }
@@ -3096,8 +3096,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeF64SF64Map(int fieldNumber, Long2LongMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Long2LongMap.Entry entry : value.long2LongEntrySet()) {
-                writeF64(entry.getLongKey());
-                writeSF64(entry.getLongValue());
+                writeF64_Packed(entry.getLongKey());
+                writeSF64_Packed(entry.getLongValue());
             }
         });
     }
@@ -3109,8 +3109,8 @@ public class ProtobjOutput extends WriteSession implements Output {
                 if (entry.getValue() == null) {
                     continue;
                 }
-                writeF64(entry.getLongKey());
-                writeSTRING(entry.getValue());
+                writeF64_Packed(entry.getLongKey());
+                writeSTRING_Packed(entry.getValue());
             }
         });
     }
@@ -3119,8 +3119,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeF64DOUBLEMap(int fieldNumber, Long2DoubleMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Long2DoubleMap.Entry entry : value.long2DoubleEntrySet()) {
-                writeF64(entry.getLongKey());
-                writeDOUBLE(entry.getDoubleValue());
+                writeF64_Packed(entry.getLongKey());
+                writeDOUBLE_Packed(entry.getDoubleValue());
             }
         });
     }
@@ -3129,8 +3129,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeF64FLOATMap(int fieldNumber, Long2FloatMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Long2FloatMap.Entry entry : value.long2FloatEntrySet()) {
-                writeF64(entry.getLongKey());
-                writeFLOAT(entry.getFloatValue());
+                writeF64_Packed(entry.getLongKey());
+                writeFLOAT_Packed(entry.getFloatValue());
             }
         });
     }
@@ -3139,8 +3139,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeSF64BOOLMap(int fieldNumber, Long2BooleanMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Long2BooleanMap.Entry entry : value.long2BooleanEntrySet()) {
-                writeSF64(entry.getLongKey());
-                writeBOOL(entry.getBooleanValue());
+                writeSF64_Packed(entry.getLongKey());
+                writeBOOL_Packed(entry.getBooleanValue());
             }
         });
     }
@@ -3149,8 +3149,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeSF64I8Map(int fieldNumber, Long2ByteMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Long2ByteMap.Entry entry : value.long2ByteEntrySet()) {
-                writeSF64(entry.getLongKey());
-                writeI8(entry.getByteValue());
+                writeSF64_Packed(entry.getLongKey());
+                writeI8_Packed(entry.getByteValue());
             }
         });
     }
@@ -3159,8 +3159,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeSF64U8Map(int fieldNumber, Long2ByteMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Long2ByteMap.Entry entry : value.long2ByteEntrySet()) {
-                writeSF64(entry.getLongKey());
-                writeU8(entry.getByteValue());
+                writeSF64_Packed(entry.getLongKey());
+                writeU8_Packed(entry.getByteValue());
             }
         });
     }
@@ -3169,8 +3169,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeSF64I16Map(int fieldNumber, Long2ShortMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Long2ShortMap.Entry entry : value.long2ShortEntrySet()) {
-                writeSF64(entry.getLongKey());
-                writeI16(entry.getShortValue());
+                writeSF64_Packed(entry.getLongKey());
+                writeI16_Packed(entry.getShortValue());
             }
         });
     }
@@ -3179,8 +3179,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeSF64U16Map(int fieldNumber, Long2ShortMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Long2ShortMap.Entry entry : value.long2ShortEntrySet()) {
-                writeSF64(entry.getLongKey());
-                writeU16(entry.getShortValue());
+                writeSF64_Packed(entry.getLongKey());
+                writeU16_Packed(entry.getShortValue());
             }
         });
     }
@@ -3189,8 +3189,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeSF64I32Map(int fieldNumber, Long2IntMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Long2IntMap.Entry entry : value.long2IntEntrySet()) {
-                writeSF64(entry.getLongKey());
-                writeI32(entry.getIntValue());
+                writeSF64_Packed(entry.getLongKey());
+                writeI32_Packed(entry.getIntValue());
             }
         });
     }
@@ -3199,8 +3199,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeSF64U32Map(int fieldNumber, Long2IntMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Long2IntMap.Entry entry : value.long2IntEntrySet()) {
-                writeSF64(entry.getLongKey());
-                writeU32(entry.getIntValue());
+                writeSF64_Packed(entry.getLongKey());
+                writeU32_Packed(entry.getIntValue());
             }
         });
     }
@@ -3209,8 +3209,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeSF64S32Map(int fieldNumber, Long2IntMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Long2IntMap.Entry entry : value.long2IntEntrySet()) {
-                writeSF64(entry.getLongKey());
-                writeS32(entry.getIntValue());
+                writeSF64_Packed(entry.getLongKey());
+                writeS32_Packed(entry.getIntValue());
             }
         });
     }
@@ -3219,8 +3219,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeSF64F32Map(int fieldNumber, Long2IntMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Long2IntMap.Entry entry : value.long2IntEntrySet()) {
-                writeSF64(entry.getLongKey());
-                writeF32(entry.getIntValue());
+                writeSF64_Packed(entry.getLongKey());
+                writeF32_Packed(entry.getIntValue());
             }
         });
     }
@@ -3229,8 +3229,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeSF64SF32Map(int fieldNumber, Long2IntMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Long2IntMap.Entry entry : value.long2IntEntrySet()) {
-                writeSF64(entry.getLongKey());
-                writeSF32(entry.getIntValue());
+                writeSF64_Packed(entry.getLongKey());
+                writeSF32_Packed(entry.getIntValue());
             }
         });
     }
@@ -3239,8 +3239,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeSF64I64Map(int fieldNumber, Long2LongMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Long2LongMap.Entry entry : value.long2LongEntrySet()) {
-                writeSF64(entry.getLongKey());
-                writeI64(entry.getLongValue());
+                writeSF64_Packed(entry.getLongKey());
+                writeI64_Packed(entry.getLongValue());
             }
         });
     }
@@ -3249,8 +3249,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeSF64U64Map(int fieldNumber, Long2LongMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Long2LongMap.Entry entry : value.long2LongEntrySet()) {
-                writeSF64(entry.getLongKey());
-                writeU64(entry.getLongValue());
+                writeSF64_Packed(entry.getLongKey());
+                writeU64_Packed(entry.getLongValue());
             }
         });
     }
@@ -3259,8 +3259,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeSF64S64Map(int fieldNumber, Long2LongMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Long2LongMap.Entry entry : value.long2LongEntrySet()) {
-                writeSF64(entry.getLongKey());
-                writeS64(entry.getLongValue());
+                writeSF64_Packed(entry.getLongKey());
+                writeS64_Packed(entry.getLongValue());
             }
         });
     }
@@ -3269,8 +3269,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeSF64F64Map(int fieldNumber, Long2LongMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Long2LongMap.Entry entry : value.long2LongEntrySet()) {
-                writeSF64(entry.getLongKey());
-                writeF64(entry.getLongValue());
+                writeSF64_Packed(entry.getLongKey());
+                writeF64_Packed(entry.getLongValue());
             }
         });
     }
@@ -3279,8 +3279,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeSF64SF64Map(int fieldNumber, Long2LongMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Long2LongMap.Entry entry : value.long2LongEntrySet()) {
-                writeSF64(entry.getLongKey());
-                writeSF64(entry.getLongValue());
+                writeSF64_Packed(entry.getLongKey());
+                writeSF64_Packed(entry.getLongValue());
             }
         });
     }
@@ -3292,8 +3292,8 @@ public class ProtobjOutput extends WriteSession implements Output {
                 if (entry.getValue() == null) {
                     continue;
                 }
-                writeSF64(entry.getLongKey());
-                writeSTRING(entry.getValue());
+                writeSF64_Packed(entry.getLongKey());
+                writeSTRING_Packed(entry.getValue());
             }
         });
     }
@@ -3302,8 +3302,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeSF64DOUBLEMap(int fieldNumber, Long2DoubleMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Long2DoubleMap.Entry entry : value.long2DoubleEntrySet()) {
-                writeSF64(entry.getLongKey());
-                writeDOUBLE(entry.getDoubleValue());
+                writeSF64_Packed(entry.getLongKey());
+                writeDOUBLE_Packed(entry.getDoubleValue());
             }
         });
     }
@@ -3312,8 +3312,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeSF64FLOATMap(int fieldNumber, Long2FloatMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Long2FloatMap.Entry entry : value.long2FloatEntrySet()) {
-                writeSF64(entry.getLongKey());
-                writeFLOAT(entry.getFloatValue());
+                writeSF64_Packed(entry.getLongKey());
+                writeFLOAT_Packed(entry.getFloatValue());
             }
         });
     }
@@ -3325,8 +3325,8 @@ public class ProtobjOutput extends WriteSession implements Output {
                 if (entry.getKey() == null) {
                     continue;
                 }
-                writeSTRING(entry.getKey());
-                writeBOOL(entry.getBooleanValue());
+                writeSTRING_Packed(entry.getKey());
+                writeBOOL_Packed(entry.getBooleanValue());
             }
         });
     }
@@ -3338,8 +3338,8 @@ public class ProtobjOutput extends WriteSession implements Output {
                 if (entry.getKey() == null) {
                     continue;
                 }
-                writeSTRING(entry.getKey());
-                writeI8(entry.getByteValue());
+                writeSTRING_Packed(entry.getKey());
+                writeI8_Packed(entry.getByteValue());
             }
         });
     }
@@ -3351,8 +3351,8 @@ public class ProtobjOutput extends WriteSession implements Output {
                 if (entry.getKey() == null) {
                     continue;
                 }
-                writeSTRING(entry.getKey());
-                writeU8(entry.getByteValue());
+                writeSTRING_Packed(entry.getKey());
+                writeU8_Packed(entry.getByteValue());
             }
         });
     }
@@ -3364,8 +3364,8 @@ public class ProtobjOutput extends WriteSession implements Output {
                 if (entry.getKey() == null) {
                     continue;
                 }
-                writeSTRING(entry.getKey());
-                writeI16(entry.getShortValue());
+                writeSTRING_Packed(entry.getKey());
+                writeI16_Packed(entry.getShortValue());
             }
         });
     }
@@ -3377,8 +3377,8 @@ public class ProtobjOutput extends WriteSession implements Output {
                 if (entry.getKey() == null) {
                     continue;
                 }
-                writeSTRING(entry.getKey());
-                writeU16(entry.getShortValue());
+                writeSTRING_Packed(entry.getKey());
+                writeU16_Packed(entry.getShortValue());
             }
         });
     }
@@ -3390,8 +3390,8 @@ public class ProtobjOutput extends WriteSession implements Output {
                 if (entry.getKey() == null) {
                     continue;
                 }
-                writeSTRING(entry.getKey());
-                writeI32(entry.getIntValue());
+                writeSTRING_Packed(entry.getKey());
+                writeI32_Packed(entry.getIntValue());
             }
         });
     }
@@ -3403,8 +3403,8 @@ public class ProtobjOutput extends WriteSession implements Output {
                 if (entry.getKey() == null) {
                     continue;
                 }
-                writeSTRING(entry.getKey());
-                writeU32(entry.getIntValue());
+                writeSTRING_Packed(entry.getKey());
+                writeU32_Packed(entry.getIntValue());
             }
         });
     }
@@ -3416,8 +3416,8 @@ public class ProtobjOutput extends WriteSession implements Output {
                 if (entry.getKey() == null) {
                     continue;
                 }
-                writeSTRING(entry.getKey());
-                writeS32(entry.getIntValue());
+                writeSTRING_Packed(entry.getKey());
+                writeS32_Packed(entry.getIntValue());
             }
         });
     }
@@ -3429,8 +3429,8 @@ public class ProtobjOutput extends WriteSession implements Output {
                 if (entry.getKey() == null) {
                     continue;
                 }
-                writeSTRING(entry.getKey());
-                writeF32(entry.getIntValue());
+                writeSTRING_Packed(entry.getKey());
+                writeF32_Packed(entry.getIntValue());
             }
         });
     }
@@ -3442,8 +3442,8 @@ public class ProtobjOutput extends WriteSession implements Output {
                 if (entry.getKey() == null) {
                     continue;
                 }
-                writeSTRING(entry.getKey());
-                writeSF32(entry.getIntValue());
+                writeSTRING_Packed(entry.getKey());
+                writeSF32_Packed(entry.getIntValue());
             }
         });
     }
@@ -3455,8 +3455,8 @@ public class ProtobjOutput extends WriteSession implements Output {
                 if (entry.getKey() == null) {
                     continue;
                 }
-                writeSTRING(entry.getKey());
-                writeI64(entry.getLongValue());
+                writeSTRING_Packed(entry.getKey());
+                writeI64_Packed(entry.getLongValue());
             }
         });
     }
@@ -3468,8 +3468,8 @@ public class ProtobjOutput extends WriteSession implements Output {
                 if (entry.getKey() == null) {
                     continue;
                 }
-                writeSTRING(entry.getKey());
-                writeU64(entry.getLongValue());
+                writeSTRING_Packed(entry.getKey());
+                writeU64_Packed(entry.getLongValue());
             }
         });
     }
@@ -3481,8 +3481,8 @@ public class ProtobjOutput extends WriteSession implements Output {
                 if (entry.getKey() == null) {
                     continue;
                 }
-                writeSTRING(entry.getKey());
-                writeS64(entry.getLongValue());
+                writeSTRING_Packed(entry.getKey());
+                writeS64_Packed(entry.getLongValue());
             }
         });
     }
@@ -3494,8 +3494,8 @@ public class ProtobjOutput extends WriteSession implements Output {
                 if (entry.getKey() == null) {
                     continue;
                 }
-                writeSTRING(entry.getKey());
-                writeF64(entry.getLongValue());
+                writeSTRING_Packed(entry.getKey());
+                writeF64_Packed(entry.getLongValue());
             }
         });
     }
@@ -3507,8 +3507,8 @@ public class ProtobjOutput extends WriteSession implements Output {
                 if (entry.getKey() == null) {
                     continue;
                 }
-                writeSTRING(entry.getKey());
-                writeSF64(entry.getLongValue());
+                writeSTRING_Packed(entry.getKey());
+                writeSF64_Packed(entry.getLongValue());
             }
         });
     }
@@ -3520,8 +3520,8 @@ public class ProtobjOutput extends WriteSession implements Output {
                 if (entry.getKey() == null || entry.getValue() == null) {
                     continue;
                 }
-                writeSTRING(entry.getKey());
-                writeSTRING(entry.getValue());
+                writeSTRING_Packed(entry.getKey());
+                writeSTRING_Packed(entry.getValue());
             }
         });
     }
@@ -3533,8 +3533,8 @@ public class ProtobjOutput extends WriteSession implements Output {
                 if (entry.getKey() == null) {
                     continue;
                 }
-                writeSTRING(entry.getKey());
-                writeDOUBLE(entry.getDoubleValue());
+                writeSTRING_Packed(entry.getKey());
+                writeDOUBLE_Packed(entry.getDoubleValue());
             }
         });
     }
@@ -3546,8 +3546,8 @@ public class ProtobjOutput extends WriteSession implements Output {
                 if (entry.getKey() == null) {
                     continue;
                 }
-                writeSTRING(entry.getKey());
-                writeFLOAT(entry.getFloatValue());
+                writeSTRING_Packed(entry.getKey());
+                writeFLOAT_Packed(entry.getFloatValue());
             }
         });
     }
@@ -3556,8 +3556,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeDOUBLEBOOLMap(int fieldNumber, Double2BooleanMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Double2BooleanMap.Entry entry : value.double2BooleanEntrySet()) {
-                writeDOUBLE(entry.getDoubleKey());
-                writeBOOL(entry.getBooleanValue());
+                writeDOUBLE_Packed(entry.getDoubleKey());
+                writeBOOL_Packed(entry.getBooleanValue());
             }
         });
     }
@@ -3566,8 +3566,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeDOUBLEI8Map(int fieldNumber, Double2ByteMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Double2ByteMap.Entry entry : value.double2ByteEntrySet()) {
-                writeDOUBLE(entry.getDoubleKey());
-                writeI8(entry.getByteValue());
+                writeDOUBLE_Packed(entry.getDoubleKey());
+                writeI8_Packed(entry.getByteValue());
             }
         });
     }
@@ -3576,8 +3576,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeDOUBLEU8Map(int fieldNumber, Double2ByteMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Double2ByteMap.Entry entry : value.double2ByteEntrySet()) {
-                writeDOUBLE(entry.getDoubleKey());
-                writeU8(entry.getByteValue());
+                writeDOUBLE_Packed(entry.getDoubleKey());
+                writeU8_Packed(entry.getByteValue());
             }
         });
     }
@@ -3586,8 +3586,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeDOUBLEI16Map(int fieldNumber, Double2ShortMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Double2ShortMap.Entry entry : value.double2ShortEntrySet()) {
-                writeDOUBLE(entry.getDoubleKey());
-                writeI16(entry.getShortValue());
+                writeDOUBLE_Packed(entry.getDoubleKey());
+                writeI16_Packed(entry.getShortValue());
             }
         });
     }
@@ -3596,8 +3596,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeDOUBLEU16Map(int fieldNumber, Double2ShortMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Double2ShortMap.Entry entry : value.double2ShortEntrySet()) {
-                writeDOUBLE(entry.getDoubleKey());
-                writeU16(entry.getShortValue());
+                writeDOUBLE_Packed(entry.getDoubleKey());
+                writeU16_Packed(entry.getShortValue());
             }
         });
     }
@@ -3606,8 +3606,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeDOUBLEI32Map(int fieldNumber, Double2IntMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Double2IntMap.Entry entry : value.double2IntEntrySet()) {
-                writeDOUBLE(entry.getDoubleKey());
-                writeI32(entry.getIntValue());
+                writeDOUBLE_Packed(entry.getDoubleKey());
+                writeI32_Packed(entry.getIntValue());
             }
         });
     }
@@ -3616,8 +3616,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeDOUBLEU32Map(int fieldNumber, Double2IntMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Double2IntMap.Entry entry : value.double2IntEntrySet()) {
-                writeDOUBLE(entry.getDoubleKey());
-                writeU32(entry.getIntValue());
+                writeDOUBLE_Packed(entry.getDoubleKey());
+                writeU32_Packed(entry.getIntValue());
             }
         });
     }
@@ -3626,8 +3626,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeDOUBLES32Map(int fieldNumber, Double2IntMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Double2IntMap.Entry entry : value.double2IntEntrySet()) {
-                writeDOUBLE(entry.getDoubleKey());
-                writeS32(entry.getIntValue());
+                writeDOUBLE_Packed(entry.getDoubleKey());
+                writeS32_Packed(entry.getIntValue());
             }
         });
     }
@@ -3636,8 +3636,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeDOUBLEF32Map(int fieldNumber, Double2IntMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Double2IntMap.Entry entry : value.double2IntEntrySet()) {
-                writeDOUBLE(entry.getDoubleKey());
-                writeF32(entry.getIntValue());
+                writeDOUBLE_Packed(entry.getDoubleKey());
+                writeF32_Packed(entry.getIntValue());
             }
         });
     }
@@ -3646,8 +3646,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeDOUBLESF32Map(int fieldNumber, Double2IntMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Double2IntMap.Entry entry : value.double2IntEntrySet()) {
-                writeDOUBLE(entry.getDoubleKey());
-                writeSF32(entry.getIntValue());
+                writeDOUBLE_Packed(entry.getDoubleKey());
+                writeSF32_Packed(entry.getIntValue());
             }
         });
     }
@@ -3656,8 +3656,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeDOUBLEI64Map(int fieldNumber, Double2LongMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Double2LongMap.Entry entry : value.double2LongEntrySet()) {
-                writeDOUBLE(entry.getDoubleKey());
-                writeI64(entry.getLongValue());
+                writeDOUBLE_Packed(entry.getDoubleKey());
+                writeI64_Packed(entry.getLongValue());
             }
         });
     }
@@ -3666,8 +3666,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeDOUBLEU64Map(int fieldNumber, Double2LongMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Double2LongMap.Entry entry : value.double2LongEntrySet()) {
-                writeDOUBLE(entry.getDoubleKey());
-                writeU64(entry.getLongValue());
+                writeDOUBLE_Packed(entry.getDoubleKey());
+                writeU64_Packed(entry.getLongValue());
             }
         });
     }
@@ -3676,8 +3676,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeDOUBLES64Map(int fieldNumber, Double2LongMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Double2LongMap.Entry entry : value.double2LongEntrySet()) {
-                writeDOUBLE(entry.getDoubleKey());
-                writeS64(entry.getLongValue());
+                writeDOUBLE_Packed(entry.getDoubleKey());
+                writeS64_Packed(entry.getLongValue());
             }
         });
     }
@@ -3686,8 +3686,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeDOUBLEF64Map(int fieldNumber, Double2LongMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Double2LongMap.Entry entry : value.double2LongEntrySet()) {
-                writeDOUBLE(entry.getDoubleKey());
-                writeF64(entry.getLongValue());
+                writeDOUBLE_Packed(entry.getDoubleKey());
+                writeF64_Packed(entry.getLongValue());
             }
         });
     }
@@ -3696,8 +3696,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeDOUBLESF64Map(int fieldNumber, Double2LongMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Double2LongMap.Entry entry : value.double2LongEntrySet()) {
-                writeDOUBLE(entry.getDoubleKey());
-                writeSF64(entry.getLongValue());
+                writeDOUBLE_Packed(entry.getDoubleKey());
+                writeSF64_Packed(entry.getLongValue());
             }
         });
     }
@@ -3709,8 +3709,8 @@ public class ProtobjOutput extends WriteSession implements Output {
                 if (entry.getValue() == null) {
                     continue;
                 }
-                writeDOUBLE(entry.getDoubleKey());
-                writeSTRING(entry.getValue());
+                writeDOUBLE_Packed(entry.getDoubleKey());
+                writeSTRING_Packed(entry.getValue());
             }
         });
     }
@@ -3719,8 +3719,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeDOUBLEDOUBLEMap(int fieldNumber, Double2DoubleMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Double2DoubleMap.Entry entry : value.double2DoubleEntrySet()) {
-                writeDOUBLE(entry.getDoubleKey());
-                writeDOUBLE(entry.getDoubleValue());
+                writeDOUBLE_Packed(entry.getDoubleKey());
+                writeDOUBLE_Packed(entry.getDoubleValue());
             }
         });
     }
@@ -3729,8 +3729,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeDOUBLEFLOATMap(int fieldNumber, Double2FloatMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Double2FloatMap.Entry entry : value.double2FloatEntrySet()) {
-                writeDOUBLE(entry.getDoubleKey());
-                writeFLOAT(entry.getFloatValue());
+                writeDOUBLE_Packed(entry.getDoubleKey());
+                writeFLOAT_Packed(entry.getFloatValue());
             }
         });
     }
@@ -3739,8 +3739,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeFLOATBOOLMap(int fieldNumber, Float2BooleanMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Float2BooleanMap.Entry entry : value.float2BooleanEntrySet()) {
-                writeFLOAT(entry.getFloatKey());
-                writeBOOL(entry.getBooleanValue());
+                writeFLOAT_Packed(entry.getFloatKey());
+                writeBOOL_Packed(entry.getBooleanValue());
             }
         });
     }
@@ -3749,8 +3749,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeFLOATI8Map(int fieldNumber, Float2ByteMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Float2ByteMap.Entry entry : value.float2ByteEntrySet()) {
-                writeFLOAT(entry.getFloatKey());
-                writeI8(entry.getByteValue());
+                writeFLOAT_Packed(entry.getFloatKey());
+                writeI8_Packed(entry.getByteValue());
             }
         });
     }
@@ -3759,8 +3759,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeFLOATU8Map(int fieldNumber, Float2ByteMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Float2ByteMap.Entry entry : value.float2ByteEntrySet()) {
-                writeFLOAT(entry.getFloatKey());
-                writeU8(entry.getByteValue());
+                writeFLOAT_Packed(entry.getFloatKey());
+                writeU8_Packed(entry.getByteValue());
             }
         });
     }
@@ -3769,8 +3769,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeFLOATI16Map(int fieldNumber, Float2ShortMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Float2ShortMap.Entry entry : value.float2ShortEntrySet()) {
-                writeFLOAT(entry.getFloatKey());
-                writeI16(entry.getShortValue());
+                writeFLOAT_Packed(entry.getFloatKey());
+                writeI16_Packed(entry.getShortValue());
             }
         });
     }
@@ -3779,8 +3779,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeFLOATU16Map(int fieldNumber, Float2ShortMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Float2ShortMap.Entry entry : value.float2ShortEntrySet()) {
-                writeFLOAT(entry.getFloatKey());
-                writeU16(entry.getShortValue());
+                writeFLOAT_Packed(entry.getFloatKey());
+                writeU16_Packed(entry.getShortValue());
             }
         });
     }
@@ -3789,8 +3789,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeFLOATI32Map(int fieldNumber, Float2IntMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Float2IntMap.Entry entry : value.float2IntEntrySet()) {
-                writeFLOAT(entry.getFloatKey());
-                writeI32(entry.getIntValue());
+                writeFLOAT_Packed(entry.getFloatKey());
+                writeI32_Packed(entry.getIntValue());
             }
         });
     }
@@ -3799,8 +3799,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeFLOATU32Map(int fieldNumber, Float2IntMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Float2IntMap.Entry entry : value.float2IntEntrySet()) {
-                writeFLOAT(entry.getFloatKey());
-                writeU32(entry.getIntValue());
+                writeFLOAT_Packed(entry.getFloatKey());
+                writeU32_Packed(entry.getIntValue());
             }
         });
     }
@@ -3809,8 +3809,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeFLOATS32Map(int fieldNumber, Float2IntMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Float2IntMap.Entry entry : value.float2IntEntrySet()) {
-                writeFLOAT(entry.getFloatKey());
-                writeS32(entry.getIntValue());
+                writeFLOAT_Packed(entry.getFloatKey());
+                writeS32_Packed(entry.getIntValue());
             }
         });
     }
@@ -3819,8 +3819,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeFLOATF32Map(int fieldNumber, Float2IntMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Float2IntMap.Entry entry : value.float2IntEntrySet()) {
-                writeFLOAT(entry.getFloatKey());
-                writeF32(entry.getIntValue());
+                writeFLOAT_Packed(entry.getFloatKey());
+                writeF32_Packed(entry.getIntValue());
             }
         });
     }
@@ -3829,8 +3829,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeFLOATSF32Map(int fieldNumber, Float2IntMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Float2IntMap.Entry entry : value.float2IntEntrySet()) {
-                writeFLOAT(entry.getFloatKey());
-                writeSF32(entry.getIntValue());
+                writeFLOAT_Packed(entry.getFloatKey());
+                writeSF32_Packed(entry.getIntValue());
             }
         });
     }
@@ -3839,8 +3839,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeFLOATI64Map(int fieldNumber, Float2LongMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Float2LongMap.Entry entry : value.float2LongEntrySet()) {
-                writeFLOAT(entry.getFloatKey());
-                writeI64(entry.getLongValue());
+                writeFLOAT_Packed(entry.getFloatKey());
+                writeI64_Packed(entry.getLongValue());
             }
         });
     }
@@ -3849,8 +3849,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeFLOATU64Map(int fieldNumber, Float2LongMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Float2LongMap.Entry entry : value.float2LongEntrySet()) {
-                writeFLOAT(entry.getFloatKey());
-                writeU64(entry.getLongValue());
+                writeFLOAT_Packed(entry.getFloatKey());
+                writeU64_Packed(entry.getLongValue());
             }
         });
     }
@@ -3859,8 +3859,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeFLOATS64Map(int fieldNumber, Float2LongMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Float2LongMap.Entry entry : value.float2LongEntrySet()) {
-                writeFLOAT(entry.getFloatKey());
-                writeS64(entry.getLongValue());
+                writeFLOAT_Packed(entry.getFloatKey());
+                writeS64_Packed(entry.getLongValue());
             }
         });
     }
@@ -3869,8 +3869,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeFLOATF64Map(int fieldNumber, Float2LongMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Float2LongMap.Entry entry : value.float2LongEntrySet()) {
-                writeFLOAT(entry.getFloatKey());
-                writeF64(entry.getLongValue());
+                writeFLOAT_Packed(entry.getFloatKey());
+                writeF64_Packed(entry.getLongValue());
             }
         });
     }
@@ -3879,8 +3879,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeFLOATSF64Map(int fieldNumber, Float2LongMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Float2LongMap.Entry entry : value.float2LongEntrySet()) {
-                writeFLOAT(entry.getFloatKey());
-                writeSF64(entry.getLongValue());
+                writeFLOAT_Packed(entry.getFloatKey());
+                writeSF64_Packed(entry.getLongValue());
             }
         });
     }
@@ -3892,8 +3892,8 @@ public class ProtobjOutput extends WriteSession implements Output {
                 if (entry.getValue() == null) {
                     continue;
                 }
-                writeFLOAT(entry.getFloatKey());
-                writeSTRING(entry.getValue());
+                writeFLOAT_Packed(entry.getFloatKey());
+                writeSTRING_Packed(entry.getValue());
             }
         });
     }
@@ -3902,8 +3902,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeFLOATDOUBLEMap(int fieldNumber, Float2DoubleMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Float2DoubleMap.Entry entry : value.float2DoubleEntrySet()) {
-                writeFLOAT(entry.getFloatKey());
-                writeDOUBLE(entry.getDoubleValue());
+                writeFLOAT_Packed(entry.getFloatKey());
+                writeDOUBLE_Packed(entry.getDoubleValue());
             }
         });
     }
@@ -3912,8 +3912,8 @@ public class ProtobjOutput extends WriteSession implements Output {
     public void writeFLOATFLOATMap(int fieldNumber, Float2FloatMap value) throws IOException {
         writeMessage(fieldNumber, () -> {
             for (Float2FloatMap.Entry entry : value.float2FloatEntrySet()) {
-                writeFLOAT(entry.getFloatKey());
-                writeFLOAT(entry.getFloatValue());
+                writeFLOAT_Packed(entry.getFloatKey());
+                writeFLOAT_Packed(entry.getFloatValue());
             }
         });
     }

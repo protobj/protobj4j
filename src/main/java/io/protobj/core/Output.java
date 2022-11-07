@@ -23,75 +23,75 @@ public interface Output {
 
     void writeBOOL(int fieldNumber, boolean value) throws IOException;
 
-    void writeBOOL(boolean value) throws IOException;
+    void writeBOOL_Packed(boolean value) throws IOException;
 
     void writeI8(int fieldNumber, byte value) throws IOException;
 
-    void writeI8(byte value) throws IOException;
+    void writeI8_Packed(byte value) throws IOException;
 
     void writeU8(int fieldNumber, byte value) throws IOException;
 
-    void writeU8(byte value) throws IOException;
+    void writeU8_Packed(byte value) throws IOException;
 
     void writeI16(int fieldNumber, short value) throws IOException;
 
-    void writeI16(short value) throws IOException;
+    void writeI16_Packed(short value) throws IOException;
 
     void writeU16(int fieldNumber, short value) throws IOException;
 
-    void writeU16(short value) throws IOException;
+    void writeU16_Packed(short value) throws IOException;
 
     void writeI32(int fieldNumber, int value) throws IOException;
 
-    void writeI32(int value) throws IOException;
+    void writeI32_Packed(int value) throws IOException;
 
     void writeU32(int fieldNumber, int value) throws IOException;
 
-    void writeU32(int value) throws IOException;
+    void writeU32_Packed(int value) throws IOException;
 
     void writeS32(int fieldNumber, int value) throws IOException;
 
-    void writeS32(int value) throws IOException;
+    void writeS32_Packed(int value) throws IOException;
 
     void writeF32(int fieldNumber, int value) throws IOException;
 
-    void writeF32(int value) throws IOException;
+    void writeF32_Packed(int value) throws IOException;
 
     void writeSF32(int fieldNumber, int value) throws IOException;
 
-    void writeSF32(int value) throws IOException;
+    void writeSF32_Packed(int value) throws IOException;
 
     void writeI64(int fieldNumber, long value) throws IOException;
 
-    void writeI64(long value) throws IOException;
+    void writeI64_Packed(long value) throws IOException;
 
     void writeU64(int fieldNumber, long value) throws IOException;
 
-    void writeU64(long value) throws IOException;
+    void writeU64_Packed(long value) throws IOException;
 
     void writeS64(int fieldNumber, long value) throws IOException;
 
-    void writeS64(long value) throws IOException;
+    void writeS64_Packed(long value) throws IOException;
 
     void writeF64(int fieldNumber, long value) throws IOException;
 
-    void writeF64(long value) throws IOException;
+    void writeF64_Packed(long value) throws IOException;
 
     void writeSF64(int fieldNumber, long value) throws IOException;
 
-    void writeSF64(long value) throws IOException;
+    void writeSF64_Packed(long value) throws IOException;
 
     void writeFLOAT(int fieldNumber, float value) throws IOException;
 
-    void writeFLOAT(float value) throws IOException;
+    void writeFLOAT_Packed(float value) throws IOException;
 
     void writeDOUBLE(int fieldNumber, double value) throws IOException;
 
-    void writeDOUBLE(double value) throws IOException;
+    void writeDOUBLE_Packed(double value) throws IOException;
 
     void writeSTRING(int fieldNumber, String value) throws IOException;
 
-    void writeSTRING(String value) throws IOException;
+    void writeSTRING_Packed(String value) throws IOException;
 
 
     void writeI8Array(int fieldNumber, byte[] value) throws IOException;

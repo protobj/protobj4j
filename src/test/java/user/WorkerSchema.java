@@ -16,7 +16,7 @@ public class WorkerSchema implements Schema {
 
     public static void writeTo(Output output, Worker message, boolean polymorphic) throws IOException {
         if (polymorphic) {
-            output.writeI32(2);
+            output.writeI32_Packed(2);
         }
         //ext Person person = 2 ; 
         output.writeMessage(2, () -> PersonSchema.writeTo(output, message,false));

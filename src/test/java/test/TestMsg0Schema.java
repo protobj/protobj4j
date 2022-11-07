@@ -15,7 +15,7 @@ public class TestMsg0Schema implements Schema {
 
     public static void writeTo(Output output, TestMsg0 message, boolean polymorphic) throws IOException {
         if (polymorphic) {
-            output.writeI32(0);
+            output.writeI32_Packed(0);
         }
         // TestMsg1 a1 = 1 ; 
         if (message.getA1() != null) {

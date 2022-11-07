@@ -15,20 +15,20 @@ public class PersonTypeSchema implements Schema {
 
     public static void writeTo(Output output, PersonType message, boolean polymorphic) throws IOException {
         if (message == null) {
-            output.writeI32(0);
+            output.writeI32_Packed(0);
             return;
         }
         switch (message) {
             case other: {
-                output.writeI32(0);
+                output.writeI32_Packed(0);
                 break;
             }
             case worker: {
-                output.writeI32(1);
+                output.writeI32_Packed(1);
                 break;
             }
             case boss: {
-                output.writeI32(2);
+                output.writeI32_Packed(2);
                 break;
             }
             default: {
@@ -39,7 +39,7 @@ public class PersonTypeSchema implements Schema {
     }
     public static void writeWithFieldNumber(int fieldNum, Output output, PersonType message) throws IOException {
         if (message == null) {
-            output.writeI32(0);
+            output.writeI32_Packed(0);
             return;
         }
         switch (message) {

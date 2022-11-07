@@ -15,12 +15,12 @@ public class FullEnum0Schema implements Schema {
 
     public static void writeTo(Output output, FullEnum0 message, boolean polymorphic) throws IOException {
         if (message == null) {
-            output.writeI32(0);
+            output.writeI32_Packed(0);
             return;
         }
         switch (message) {
             case other: {
-                output.writeI32(0);
+                output.writeI32_Packed(0);
                 break;
             }
             default: {
@@ -31,7 +31,7 @@ public class FullEnum0Schema implements Schema {
     }
     public static void writeWithFieldNumber(int fieldNum, Output output, FullEnum0 message) throws IOException {
         if (message == null) {
-            output.writeI32(0);
+            output.writeI32_Packed(0);
             return;
         }
         switch (message) {

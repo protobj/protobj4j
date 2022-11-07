@@ -15,7 +15,7 @@ public class EmptyMessageSchema implements Schema {
 
     public static void writeTo(Output output, EmptyMessage message, boolean polymorphic) throws IOException {
         if (polymorphic) {
-            output.writeI32(0);
+            output.writeI32_Packed(0);
         }
 
     }

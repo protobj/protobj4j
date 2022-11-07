@@ -32,7 +32,7 @@ public class FullMessageSchema implements Schema {
 
     public static void writeTo(Output output, FullMessage message, boolean polymorphic) throws IOException {
         if (polymorphic) {
-            output.writeI32(2);
+            output.writeI32_Packed(2);
         }
         // bool p1 = 1 ; 
         if (message.isP1() != false) {
@@ -194,7 +194,7 @@ public class FullMessageSchema implements Schema {
                     if (p39[i] == null) {
                         continue;
                     }
-                    output.writeI32(i);
+                    output.writeI32_Packed(i);
                     FullEnum0Schema.writeTo(output, p39[i], false);
                 }
             });
@@ -208,7 +208,7 @@ public class FullMessageSchema implements Schema {
                     continue;
                 }
                 output.writeMessage(40, () -> {
-                    output.writeI32(index);
+                    output.writeI32_Packed(index);
                     FullMessage0Schema.writeTo(output, p40[index], false);
                 });
             }
@@ -415,7 +415,7 @@ public class FullMessageSchema implements Schema {
                     continue;
                 }
                 output.writeMessage(83, () -> {
-                    output.writeI32(index);
+                    output.writeI32_Packed(index);
                     if (p83[index].getClass() == FullMessage0.class) {
                         FullMessage0Schema.writeTo(output, p83[index],true);
                     } else if (p83[index].getClass() == FullMessage.class) {
@@ -1605,7 +1605,7 @@ public class FullMessageSchema implements Schema {
                     continue;
                 }
                 output.writeMessage(374,() -> {
-                    output.writeI8(entry.getByteKey());
+                    output.writeI8_Packed(entry.getByteKey());
                     FullEnum0Schema.writeTo(output, entry.getValue(), false);
                 });
             }
@@ -1617,7 +1617,7 @@ public class FullMessageSchema implements Schema {
                     continue;
                 }
                 output.writeMessage(375,() -> {
-                    output.writeI8(entry.getByteKey());
+                    output.writeI8_Packed(entry.getByteKey());
                     FullMessage0Schema.writeTo(output, entry.getValue(), false);
                 });
             }
@@ -1629,7 +1629,7 @@ public class FullMessageSchema implements Schema {
                     continue;
                 }
                 output.writeMessage(376,() -> {
-                    output.writeI8(entry.getByteKey());
+                    output.writeI8_Packed(entry.getByteKey());
                     if (entry.getValue().getClass() == FullMessage0.class) {
                         FullMessage0Schema.writeTo(output, entry.getValue(),true);
                     } else if (entry.getValue().getClass() == FullMessage.class) {
@@ -1648,7 +1648,7 @@ public class FullMessageSchema implements Schema {
                     continue;
                 }
                 output.writeMessage(377,() -> {
-                    output.writeU8(entry.getByteKey());
+                    output.writeU8_Packed(entry.getByteKey());
                     FullEnum0Schema.writeTo(output, entry.getValue(), false);
                 });
             }
@@ -1660,7 +1660,7 @@ public class FullMessageSchema implements Schema {
                     continue;
                 }
                 output.writeMessage(378,() -> {
-                    output.writeU8(entry.getByteKey());
+                    output.writeU8_Packed(entry.getByteKey());
                     FullMessage0Schema.writeTo(output, entry.getValue(), false);
                 });
             }
@@ -1672,7 +1672,7 @@ public class FullMessageSchema implements Schema {
                     continue;
                 }
                 output.writeMessage(379,() -> {
-                    output.writeU8(entry.getByteKey());
+                    output.writeU8_Packed(entry.getByteKey());
                     if (entry.getValue().getClass() == FullMessage0.class) {
                         FullMessage0Schema.writeTo(output, entry.getValue(),true);
                     } else if (entry.getValue().getClass() == FullMessage.class) {
@@ -1691,7 +1691,7 @@ public class FullMessageSchema implements Schema {
                     continue;
                 }
                 output.writeMessage(380,() -> {
-                    output.writeI16(entry.getShortKey());
+                    output.writeI16_Packed(entry.getShortKey());
                     FullEnum0Schema.writeTo(output, entry.getValue(), false);
                 });
             }
@@ -1703,7 +1703,7 @@ public class FullMessageSchema implements Schema {
                     continue;
                 }
                 output.writeMessage(381,() -> {
-                    output.writeI16(entry.getShortKey());
+                    output.writeI16_Packed(entry.getShortKey());
                     FullMessage0Schema.writeTo(output, entry.getValue(), false);
                 });
             }
@@ -1715,7 +1715,7 @@ public class FullMessageSchema implements Schema {
                     continue;
                 }
                 output.writeMessage(382,() -> {
-                    output.writeI16(entry.getShortKey());
+                    output.writeI16_Packed(entry.getShortKey());
                     if (entry.getValue().getClass() == FullMessage0.class) {
                         FullMessage0Schema.writeTo(output, entry.getValue(),true);
                     } else if (entry.getValue().getClass() == FullMessage.class) {
@@ -1734,7 +1734,7 @@ public class FullMessageSchema implements Schema {
                     continue;
                 }
                 output.writeMessage(383,() -> {
-                    output.writeU16(entry.getShortKey());
+                    output.writeU16_Packed(entry.getShortKey());
                     FullEnum0Schema.writeTo(output, entry.getValue(), false);
                 });
             }
@@ -1746,7 +1746,7 @@ public class FullMessageSchema implements Schema {
                     continue;
                 }
                 output.writeMessage(384,() -> {
-                    output.writeU16(entry.getShortKey());
+                    output.writeU16_Packed(entry.getShortKey());
                     FullMessage0Schema.writeTo(output, entry.getValue(), false);
                 });
             }
@@ -1758,7 +1758,7 @@ public class FullMessageSchema implements Schema {
                     continue;
                 }
                 output.writeMessage(385,() -> {
-                    output.writeU16(entry.getShortKey());
+                    output.writeU16_Packed(entry.getShortKey());
                     if (entry.getValue().getClass() == FullMessage0.class) {
                         FullMessage0Schema.writeTo(output, entry.getValue(),true);
                     } else if (entry.getValue().getClass() == FullMessage.class) {
@@ -1777,7 +1777,7 @@ public class FullMessageSchema implements Schema {
                     continue;
                 }
                 output.writeMessage(386,() -> {
-                    output.writeI32(entry.getIntKey());
+                    output.writeI32_Packed(entry.getIntKey());
                     FullEnum0Schema.writeTo(output, entry.getValue(), false);
                 });
             }
@@ -1789,7 +1789,7 @@ public class FullMessageSchema implements Schema {
                     continue;
                 }
                 output.writeMessage(387,() -> {
-                    output.writeI32(entry.getIntKey());
+                    output.writeI32_Packed(entry.getIntKey());
                     FullMessage0Schema.writeTo(output, entry.getValue(), false);
                 });
             }
@@ -1801,7 +1801,7 @@ public class FullMessageSchema implements Schema {
                     continue;
                 }
                 output.writeMessage(388,() -> {
-                    output.writeI32(entry.getIntKey());
+                    output.writeI32_Packed(entry.getIntKey());
                     if (entry.getValue().getClass() == FullMessage0.class) {
                         FullMessage0Schema.writeTo(output, entry.getValue(),true);
                     } else if (entry.getValue().getClass() == FullMessage.class) {
@@ -1820,7 +1820,7 @@ public class FullMessageSchema implements Schema {
                     continue;
                 }
                 output.writeMessage(389,() -> {
-                    output.writeU32(entry.getIntKey());
+                    output.writeU32_Packed(entry.getIntKey());
                     FullEnum0Schema.writeTo(output, entry.getValue(), false);
                 });
             }
@@ -1832,7 +1832,7 @@ public class FullMessageSchema implements Schema {
                     continue;
                 }
                 output.writeMessage(390,() -> {
-                    output.writeU32(entry.getIntKey());
+                    output.writeU32_Packed(entry.getIntKey());
                     FullMessage0Schema.writeTo(output, entry.getValue(), false);
                 });
             }
@@ -1844,7 +1844,7 @@ public class FullMessageSchema implements Schema {
                     continue;
                 }
                 output.writeMessage(391,() -> {
-                    output.writeU32(entry.getIntKey());
+                    output.writeU32_Packed(entry.getIntKey());
                     if (entry.getValue().getClass() == FullMessage0.class) {
                         FullMessage0Schema.writeTo(output, entry.getValue(),true);
                     } else if (entry.getValue().getClass() == FullMessage.class) {
@@ -1863,7 +1863,7 @@ public class FullMessageSchema implements Schema {
                     continue;
                 }
                 output.writeMessage(392,() -> {
-                    output.writeS32(entry.getIntKey());
+                    output.writeS32_Packed(entry.getIntKey());
                     FullEnum0Schema.writeTo(output, entry.getValue(), false);
                 });
             }
@@ -1875,7 +1875,7 @@ public class FullMessageSchema implements Schema {
                     continue;
                 }
                 output.writeMessage(393,() -> {
-                    output.writeS32(entry.getIntKey());
+                    output.writeS32_Packed(entry.getIntKey());
                     FullMessage0Schema.writeTo(output, entry.getValue(), false);
                 });
             }
@@ -1887,7 +1887,7 @@ public class FullMessageSchema implements Schema {
                     continue;
                 }
                 output.writeMessage(394,() -> {
-                    output.writeS32(entry.getIntKey());
+                    output.writeS32_Packed(entry.getIntKey());
                     if (entry.getValue().getClass() == FullMessage0.class) {
                         FullMessage0Schema.writeTo(output, entry.getValue(),true);
                     } else if (entry.getValue().getClass() == FullMessage.class) {
@@ -1906,7 +1906,7 @@ public class FullMessageSchema implements Schema {
                     continue;
                 }
                 output.writeMessage(395,() -> {
-                    output.writeF32(entry.getIntKey());
+                    output.writeF32_Packed(entry.getIntKey());
                     FullEnum0Schema.writeTo(output, entry.getValue(), false);
                 });
             }
@@ -1918,7 +1918,7 @@ public class FullMessageSchema implements Schema {
                     continue;
                 }
                 output.writeMessage(396,() -> {
-                    output.writeF32(entry.getIntKey());
+                    output.writeF32_Packed(entry.getIntKey());
                     FullMessage0Schema.writeTo(output, entry.getValue(), false);
                 });
             }
@@ -1930,7 +1930,7 @@ public class FullMessageSchema implements Schema {
                     continue;
                 }
                 output.writeMessage(397,() -> {
-                    output.writeF32(entry.getIntKey());
+                    output.writeF32_Packed(entry.getIntKey());
                     if (entry.getValue().getClass() == FullMessage0.class) {
                         FullMessage0Schema.writeTo(output, entry.getValue(),true);
                     } else if (entry.getValue().getClass() == FullMessage.class) {
@@ -1949,7 +1949,7 @@ public class FullMessageSchema implements Schema {
                     continue;
                 }
                 output.writeMessage(398,() -> {
-                    output.writeSF32(entry.getIntKey());
+                    output.writeSF32_Packed(entry.getIntKey());
                     FullEnum0Schema.writeTo(output, entry.getValue(), false);
                 });
             }
@@ -1961,7 +1961,7 @@ public class FullMessageSchema implements Schema {
                     continue;
                 }
                 output.writeMessage(399,() -> {
-                    output.writeSF32(entry.getIntKey());
+                    output.writeSF32_Packed(entry.getIntKey());
                     FullMessage0Schema.writeTo(output, entry.getValue(), false);
                 });
             }
@@ -1973,7 +1973,7 @@ public class FullMessageSchema implements Schema {
                     continue;
                 }
                 output.writeMessage(400,() -> {
-                    output.writeSF32(entry.getIntKey());
+                    output.writeSF32_Packed(entry.getIntKey());
                     if (entry.getValue().getClass() == FullMessage0.class) {
                         FullMessage0Schema.writeTo(output, entry.getValue(),true);
                     } else if (entry.getValue().getClass() == FullMessage.class) {
@@ -1992,7 +1992,7 @@ public class FullMessageSchema implements Schema {
                     continue;
                 }
                 output.writeMessage(401,() -> {
-                    output.writeI64(entry.getLongKey());
+                    output.writeI64_Packed(entry.getLongKey());
                     FullEnum0Schema.writeTo(output, entry.getValue(), false);
                 });
             }
@@ -2004,7 +2004,7 @@ public class FullMessageSchema implements Schema {
                     continue;
                 }
                 output.writeMessage(402,() -> {
-                    output.writeI64(entry.getLongKey());
+                    output.writeI64_Packed(entry.getLongKey());
                     FullMessage0Schema.writeTo(output, entry.getValue(), false);
                 });
             }
@@ -2016,7 +2016,7 @@ public class FullMessageSchema implements Schema {
                     continue;
                 }
                 output.writeMessage(403,() -> {
-                    output.writeI64(entry.getLongKey());
+                    output.writeI64_Packed(entry.getLongKey());
                     if (entry.getValue().getClass() == FullMessage0.class) {
                         FullMessage0Schema.writeTo(output, entry.getValue(),true);
                     } else if (entry.getValue().getClass() == FullMessage.class) {
@@ -2035,7 +2035,7 @@ public class FullMessageSchema implements Schema {
                     continue;
                 }
                 output.writeMessage(404,() -> {
-                    output.writeU64(entry.getLongKey());
+                    output.writeU64_Packed(entry.getLongKey());
                     FullEnum0Schema.writeTo(output, entry.getValue(), false);
                 });
             }
@@ -2047,7 +2047,7 @@ public class FullMessageSchema implements Schema {
                     continue;
                 }
                 output.writeMessage(405,() -> {
-                    output.writeU64(entry.getLongKey());
+                    output.writeU64_Packed(entry.getLongKey());
                     FullMessage0Schema.writeTo(output, entry.getValue(), false);
                 });
             }
@@ -2059,7 +2059,7 @@ public class FullMessageSchema implements Schema {
                     continue;
                 }
                 output.writeMessage(406,() -> {
-                    output.writeU64(entry.getLongKey());
+                    output.writeU64_Packed(entry.getLongKey());
                     if (entry.getValue().getClass() == FullMessage0.class) {
                         FullMessage0Schema.writeTo(output, entry.getValue(),true);
                     } else if (entry.getValue().getClass() == FullMessage.class) {
@@ -2078,7 +2078,7 @@ public class FullMessageSchema implements Schema {
                     continue;
                 }
                 output.writeMessage(407,() -> {
-                    output.writeS64(entry.getLongKey());
+                    output.writeS64_Packed(entry.getLongKey());
                     FullEnum0Schema.writeTo(output, entry.getValue(), false);
                 });
             }
@@ -2090,7 +2090,7 @@ public class FullMessageSchema implements Schema {
                     continue;
                 }
                 output.writeMessage(408,() -> {
-                    output.writeS64(entry.getLongKey());
+                    output.writeS64_Packed(entry.getLongKey());
                     FullMessage0Schema.writeTo(output, entry.getValue(), false);
                 });
             }
@@ -2102,7 +2102,7 @@ public class FullMessageSchema implements Schema {
                     continue;
                 }
                 output.writeMessage(409,() -> {
-                    output.writeS64(entry.getLongKey());
+                    output.writeS64_Packed(entry.getLongKey());
                     if (entry.getValue().getClass() == FullMessage0.class) {
                         FullMessage0Schema.writeTo(output, entry.getValue(),true);
                     } else if (entry.getValue().getClass() == FullMessage.class) {
@@ -2121,7 +2121,7 @@ public class FullMessageSchema implements Schema {
                     continue;
                 }
                 output.writeMessage(410,() -> {
-                    output.writeF64(entry.getLongKey());
+                    output.writeF64_Packed(entry.getLongKey());
                     FullEnum0Schema.writeTo(output, entry.getValue(), false);
                 });
             }
@@ -2133,7 +2133,7 @@ public class FullMessageSchema implements Schema {
                     continue;
                 }
                 output.writeMessage(411,() -> {
-                    output.writeF64(entry.getLongKey());
+                    output.writeF64_Packed(entry.getLongKey());
                     FullMessage0Schema.writeTo(output, entry.getValue(), false);
                 });
             }
@@ -2145,7 +2145,7 @@ public class FullMessageSchema implements Schema {
                     continue;
                 }
                 output.writeMessage(412,() -> {
-                    output.writeF64(entry.getLongKey());
+                    output.writeF64_Packed(entry.getLongKey());
                     if (entry.getValue().getClass() == FullMessage0.class) {
                         FullMessage0Schema.writeTo(output, entry.getValue(),true);
                     } else if (entry.getValue().getClass() == FullMessage.class) {
@@ -2164,7 +2164,7 @@ public class FullMessageSchema implements Schema {
                     continue;
                 }
                 output.writeMessage(413,() -> {
-                    output.writeSF64(entry.getLongKey());
+                    output.writeSF64_Packed(entry.getLongKey());
                     FullEnum0Schema.writeTo(output, entry.getValue(), false);
                 });
             }
@@ -2176,7 +2176,7 @@ public class FullMessageSchema implements Schema {
                     continue;
                 }
                 output.writeMessage(414,() -> {
-                    output.writeSF64(entry.getLongKey());
+                    output.writeSF64_Packed(entry.getLongKey());
                     FullMessage0Schema.writeTo(output, entry.getValue(), false);
                 });
             }
@@ -2188,7 +2188,7 @@ public class FullMessageSchema implements Schema {
                     continue;
                 }
                 output.writeMessage(415,() -> {
-                    output.writeSF64(entry.getLongKey());
+                    output.writeSF64_Packed(entry.getLongKey());
                     if (entry.getValue().getClass() == FullMessage0.class) {
                         FullMessage0Schema.writeTo(output, entry.getValue(),true);
                     } else if (entry.getValue().getClass() == FullMessage.class) {
@@ -2207,7 +2207,7 @@ public class FullMessageSchema implements Schema {
                     continue;
                 }
                 output.writeMessage(416,() -> {
-                    output.writeSTRING(entry.getKey());
+                    output.writeSTRING_Packed(entry.getKey());
                     FullEnum0Schema.writeTo(output, entry.getValue(), false);
                 });
             }
@@ -2219,7 +2219,7 @@ public class FullMessageSchema implements Schema {
                     continue;
                 }
                 output.writeMessage(417,() -> {
-                    output.writeSTRING(entry.getKey());
+                    output.writeSTRING_Packed(entry.getKey());
                     FullMessage0Schema.writeTo(output, entry.getValue(), false);
                 });
             }
@@ -2231,7 +2231,7 @@ public class FullMessageSchema implements Schema {
                     continue;
                 }
                 output.writeMessage(418,() -> {
-                    output.writeSTRING(entry.getKey());
+                    output.writeSTRING_Packed(entry.getKey());
                     if (entry.getValue().getClass() == FullMessage0.class) {
                         FullMessage0Schema.writeTo(output, entry.getValue(),true);
                     } else if (entry.getValue().getClass() == FullMessage.class) {
@@ -2250,7 +2250,7 @@ public class FullMessageSchema implements Schema {
                     continue;
                 }
                 output.writeMessage(419,() -> {
-                    output.writeDOUBLE(entry.getDoubleKey());
+                    output.writeDOUBLE_Packed(entry.getDoubleKey());
                     FullEnum0Schema.writeTo(output, entry.getValue(), false);
                 });
             }
@@ -2262,7 +2262,7 @@ public class FullMessageSchema implements Schema {
                     continue;
                 }
                 output.writeMessage(420,() -> {
-                    output.writeDOUBLE(entry.getDoubleKey());
+                    output.writeDOUBLE_Packed(entry.getDoubleKey());
                     FullMessage0Schema.writeTo(output, entry.getValue(), false);
                 });
             }
@@ -2274,7 +2274,7 @@ public class FullMessageSchema implements Schema {
                     continue;
                 }
                 output.writeMessage(421,() -> {
-                    output.writeDOUBLE(entry.getDoubleKey());
+                    output.writeDOUBLE_Packed(entry.getDoubleKey());
                     if (entry.getValue().getClass() == FullMessage0.class) {
                         FullMessage0Schema.writeTo(output, entry.getValue(),true);
                     } else if (entry.getValue().getClass() == FullMessage.class) {
@@ -2293,7 +2293,7 @@ public class FullMessageSchema implements Schema {
                     continue;
                 }
                 output.writeMessage(422,() -> {
-                    output.writeFLOAT(entry.getFloatKey());
+                    output.writeFLOAT_Packed(entry.getFloatKey());
                     FullEnum0Schema.writeTo(output, entry.getValue(), false);
                 });
             }
@@ -2305,7 +2305,7 @@ public class FullMessageSchema implements Schema {
                     continue;
                 }
                 output.writeMessage(423,() -> {
-                    output.writeFLOAT(entry.getFloatKey());
+                    output.writeFLOAT_Packed(entry.getFloatKey());
                     FullMessage0Schema.writeTo(output, entry.getValue(), false);
                 });
             }
@@ -2317,7 +2317,7 @@ public class FullMessageSchema implements Schema {
                     continue;
                 }
                 output.writeMessage(424,() -> {
-                    output.writeFLOAT(entry.getFloatKey());
+                    output.writeFLOAT_Packed(entry.getFloatKey());
                     if (entry.getValue().getClass() == FullMessage0.class) {
                         FullMessage0Schema.writeTo(output, entry.getValue(),true);
                     } else if (entry.getValue().getClass() == FullMessage.class) {

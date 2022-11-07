@@ -17,7 +17,7 @@ public class UserSchema implements Schema {
 
     public static void writeTo(Output output, User message, boolean polymorphic) throws IOException {
         if (polymorphic) {
-            output.writeI32(1);
+            output.writeI32_Packed(1);
         }
         //ext Person person = 1 ; 
         output.writeMessage(1, () -> PersonSchema.writeTo(output, message,false));
@@ -30,7 +30,7 @@ public class UserSchema implements Schema {
                     continue;
                 }
                 output.writeMessage(2, () -> {
-                    output.writeI32(index);
+                    output.writeI32_Packed(index);
                     PersonSchema.writeTo(output, personArr[index], false);
                 });
             }
@@ -44,7 +44,7 @@ public class UserSchema implements Schema {
                     continue;
                 }
                 output.writeMessage(3, () -> {
-                    output.writeI32(index);
+                    output.writeI32_Packed(index);
                     if (personArrMorphic[index].getClass() == Person.class) {
                         PersonSchema.writeTo(output, personArrMorphic[index],true);
                     } else if (personArrMorphic[index].getClass() == Worker.class) {

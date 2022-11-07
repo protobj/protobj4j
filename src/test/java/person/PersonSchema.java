@@ -15,7 +15,7 @@ public class PersonSchema implements Schema {
 
     public static void writeTo(Output output, Person message, boolean polymorphic) throws IOException {
         if (polymorphic) {
-            output.writeI32(0);
+            output.writeI32_Packed(0);
         }
         // i32 type = 1 ;  字段描述
         if (message.getType() != 0) {
