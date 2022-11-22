@@ -1,4 +1,4 @@
-package io.protobj.runtime;
+package io.protobj.core;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -7,10 +7,9 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
-public @interface ProtobjClass {
+public @interface ParentTag {
 
-    int index() default 0;
+    int value() default 1;
 
-    String note() default "";
-
+    String desc() default "";
 }

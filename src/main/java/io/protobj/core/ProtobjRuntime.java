@@ -1,4 +1,4 @@
-package io.protobj.runtime;
+package io.protobj.core;
 
 import com.beust.jcommander.JCommander;
 import io.protobj.config.Config;

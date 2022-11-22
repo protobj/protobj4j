@@ -1,5 +1,0 @@
-package empty;
-
-message EmptyMessage {
-
-}

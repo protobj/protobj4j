@@ -1,4 +1,4 @@
-package io.protobj.runtime;
+package io.protobj.core;
 
 import io.protobj.definition.FieldType;
 
